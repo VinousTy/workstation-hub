@@ -28,8 +28,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
       return [
-        'email' => ['required', 'string', 'email:strict,dns,spoof', 'max:255', new AlphaNumSymbol()],
-        'password' => ['required', 'string', 'min:8', 'max:255', new AlphaNumSymbol(), Password::default()],
+          'email' => ['required', 'string', 'email:strict,dns,spoof', 'max:255', new AlphaNumSymbol()],
+          'password' => ['required', 'string', 'min:8', 'max:255', new AlphaNumSymbol(), Password::default()],
       ];
     }
 
