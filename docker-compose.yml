@@ -1,0 +1,59 @@
+version: "3.9"
+services:
+  app:
+    container_name: support-my-home-consideration_app
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    ports:
+      - "9000:9000"
+      - "5173:5173"
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+      - .docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  nginx:
+    container_name: support-my-home-consideration_nginx
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./public:/app/public
+
+  db:
+    container_name: support-my-home-consideration_db
+    build:
+      context: .
+      dockerfile: .docker/mysql/Dockerfile
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: $DB_DATABASE
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+    ports:
+      - 3306:3306
+    volumes:
+      - .docker/mysql/mysql_volume:/var/lib/mysql
+
+  swagger-ui:
+    container_name: support-my-home-consideration_swagger
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./docs/openapi.json:/openapi.json
+    environment:
+      SWAGGER_JSON: /openapi.json
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: support-my-home-consideration_mailhog
+    ports:
+      - 8025:8025
