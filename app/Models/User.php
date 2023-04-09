@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\VerifiedEmailNotification;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasUlids;
 
@@ -43,4 +44,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendEmailVerificationNotification()
+    {
+        Log::info('認証メール送信 (VerificationNotification) をqueueに渡します。');
+        $this->notify(new VerifiedEmailNotification());
+        Log::info('認証メール送信 (VerificationNotification) をqueueに渡し終えました。');
+    }
 }
