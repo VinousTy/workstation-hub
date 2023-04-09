@@ -8,8 +8,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "application-all": "#f1f7fc",
+        "application-all": "#0d1117",
         "header-color": "#404048",
+        "opacity-black": "rgba(0, 0, 0, 0.7)",
       },
     },
   },
