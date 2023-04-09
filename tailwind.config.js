@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         "application-all": "#f1f7fc",
+        "header-color": "#404048",
       },
     },
   },
