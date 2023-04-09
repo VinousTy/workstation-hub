@@ -21,3 +21,14 @@ export interface REGISTER_DATA {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface FORGOT_PASSWORD_DATA {
+  email: string;
+}
+
+export interface RESET_PASSWORD_DATA {
+  email: string | null;
+  password: string;
+  passwordConfirmation: string;
+  token: string | null;
+}
