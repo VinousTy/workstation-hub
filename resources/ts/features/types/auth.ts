@@ -15,3 +15,9 @@ export interface LOGIN_DATA {
   email: string;
   password: string;
 }
+
+export interface REGISTER_DATA {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
