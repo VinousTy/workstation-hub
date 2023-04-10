@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LOGIN_DATA, REGISTER_DATA, USER_INITIALSTATE } from "../types/auth";
+import {
+  FORGOT_PASSWORD_DATA,
+  LOGIN_DATA,
+  REGISTER_DATA,
+  RESET_PASSWORD_DATA,
+  USER_INITIALSTATE,
+} from "../types/auth";
 import axios from "axios";
 import { RootState } from "../store";
+import { StatusCode } from "../../utils/statusCode";
 
 const initialState: USER_INITIALSTATE = {
   isLogin: false,
@@ -71,6 +78,77 @@ export const userRegister = createAsyncThunk(
   }
 );
 
+export const forgotPassword = createAsyncThunk(
+  "forgot/password",
+  async (forgotPasswordData: FORGOT_PASSWORD_DATA, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        "/api/forgot-password",
+        {
+          email: forgotPasswordData.email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      // axios例外であるかどうかを判定
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.VALIDATION
+      ) {
+        return rejectWithValue(error.response.data.errors);
+      } else if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.SERVER_ERROR
+      ) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("サーバーに接続できません。");
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "reset/password",
+  async (resetPasswordData: RESET_PASSWORD_DATA, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        "/api/reset-password",
+        {
+          email: resetPasswordData.email,
+          password: resetPasswordData.password,
+          password_confirmation: resetPasswordData.passwordConfirmation,
+          token: resetPasswordData.token,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      // axios例外であるかどうかを判定
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.VALIDATION
+      ) {
+        return rejectWithValue(error.response.data.errors);
+      } else if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.SERVER_ERROR
+      ) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("サーバーに接続できません。");
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -88,6 +166,18 @@ export const authSlice = createSlice({
       state.message = action.payload.message;
     });
     builder.addCase(userRegister.rejected, (state, action: any) => {
+      state.errors = action.payload;
+    });
+    builder.addCase(forgotPassword.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+    });
+    builder.addCase(forgotPassword.rejected, (state, action: any) => {
+      state.errors = action.payload;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.message = action.payload.message;
+    });
+    builder.addCase(resetPassword.rejected, (state, action: any) => {
       state.errors = action.payload;
     });
   },
