@@ -25,7 +25,7 @@ const InputForm: React.FC<PROPS> = (props) => {
         type={props.type}
         name={props.type}
         id={props.type}
-        className="border rounded py-2 px-3 w-full"
+        className="border border-slate-700 rounded py-2 px-3 w-full bg-black text-white"
         required
         value={props.value}
         onChange={props.onChange}
