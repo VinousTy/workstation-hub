@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\VerifiedEmailNotification;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -44,6 +45,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        Log::info('パスワードリセット送信 (ResetPasswordNotification) をqueueに渡します。');
+        $this->notify(new ResetPasswordNotification($token));
+        Log::info('パスワードリセット送信 (ResetPasswordNotification) をqueueに渡し終えました。');
+    }
 
     /**
      * {@inheritdoc}
