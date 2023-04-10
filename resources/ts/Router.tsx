@@ -7,6 +7,8 @@ import VerifyEmail from "./views/pages/auth/VerifyEmail";
 import VerifyEmailComplate from "./views/pages/auth/VerifyEmailComplate";
 import ForgotPassword from "./views/pages/auth/ForgotPassword";
 import ForgotPasswordCompalate from "./views/pages/auth/ForgotPasswordCompalate";
+import ResetPassword from "./views/pages/auth/ResetPassword";
+import ResetPasswordComplate from "./views/pages/auth/ResetPasswordCompalate";
 
 const Router = () => {
   return (
@@ -24,6 +26,11 @@ const Router = () => {
         <Route
           path="/forgot/password/compalate"
           element={<ForgotPasswordCompalate />}
+        />
+        <Route path="/api/reset-password" element={<ResetPassword />} />
+        <Route
+          path="/reset-password/compalate"
+          element={<ResetPasswordComplate />}
         />
       </Routes>
     </BrowserRouter>
