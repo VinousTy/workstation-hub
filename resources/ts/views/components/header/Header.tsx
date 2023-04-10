@@ -39,7 +39,6 @@ const Header = () => {
           >
             お問い合わせ
           </Link>
-
         </nav>
       </div>
     </header>

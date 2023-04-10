@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         "application-all": "#0d1117",
         "header-color": "#404048",
-        "opacity-black": "rgba(0, 0, 0, 0.7)",
+        "opacity-black": "rgba(30, 30, 30, 0.9)",
       },
     },
   },
