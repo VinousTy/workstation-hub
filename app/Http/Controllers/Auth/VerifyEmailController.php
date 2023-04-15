@@ -15,8 +15,8 @@ class VerifyEmailController extends Controller
     /**
      * パスワード認証
      *
-     * @param Request $request
-     * @return JsonRespone|RedirectResponse
+     * @param  Request  $request
+     * @return JsonResponse|RedirectResponse
      */
     public function __invoke(Request $request): JsonResponse|RedirectResponse
     {

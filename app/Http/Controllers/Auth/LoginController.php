@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 class LoginController extends Controller
 {
   /**
-   * @param AuthManager $auth
+   * @param  AuthManager  $auth
    */
   public function __construct(private readonly AuthManager $auth)
   {
@@ -22,8 +22,8 @@ class LoginController extends Controller
 
   /**
    * ログイン処理
-   * 
-   * @param LoginRequest $request
+   *
+   * @param  LoginRequest  $request
    * @return JsonResponse
    */
   public function __invoke(LoginRequest $request): JsonResponse
