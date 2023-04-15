@@ -52,7 +52,7 @@ generate:
 	docker-compose exec app php artisan openapi:generate > docs/openapi.json
 
 format:
-	docker-compose exec app ./vendor/bin/pint
+	docker-compose exec app ./vendor/bin/pint --config=pint.json
 
 ifeq ($(OS_NAME), "Linux")
 shell:
