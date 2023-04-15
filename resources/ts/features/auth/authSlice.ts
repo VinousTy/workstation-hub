@@ -155,6 +155,7 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
+      state.isLogin = true;
       state.user = action.payload.user;
       state.message = action.payload.message;
     });
@@ -162,6 +163,7 @@ export const authSlice = createSlice({
       state.errors = action.payload;
     });
     builder.addCase(userRegister.fulfilled, (state, action) => {
+      state.isLogin = true;
       state.user = action.payload.user;
       state.message = action.payload.message;
     });
@@ -183,6 +185,7 @@ export const authSlice = createSlice({
   },
 });
 
+export const selectIsLoggedIn = (state: RootState) => state.auth.isLogin;
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectEmail = (state: RootState) => state.auth.user.email;
 export const selectSuccessMessage = (state: RootState) => state.auth.message;
