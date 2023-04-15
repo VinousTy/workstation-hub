@@ -1,11 +1,41 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import logo from "../../../assets/header/logo__header.png";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../../features/auth/authSlice";
+import { AiOutlineShoppingCart, AiOutlineBell } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
+import DropdownMenu from "../menu/DropdownMenu";
 
 const Header = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const isLoginedIn = useSelector(selectIsLoggedIn);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  // dropdownの外側がクリックされた際に、dropdownを閉じる
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <header className="left-0 w-full bg-white z-10 bg-header-color">
+    <header className="left-0 w-full z-10 bg-header-color">
       <div className="container mx-auto flex justify-between items-center py-2">
         {/* ロゴ */}
         <Link to="/">
@@ -25,21 +55,42 @@ const Header = () => {
         </form>
 
         {/* ナビゲーションバー */}
-        <nav className="flex items-center">
-          <Link
-            to="/login"
-            className="text-gray-300 py-2 px-4 hover:text-white transition"
-          >
-            ログイン
-          </Link>
+        {isLoginedIn ? (
+          <nav className="flex items-center">
+            {/* <img src={userIcon} alt="User Icon" className="w-6 h-6" /> */}
+            <FaUserCircle
+              className="text-gray-300 w-8 h-8 cursor-pointer"
+              onClick={toggleDropdown}
+            />
+            {isDropdownOpen && (
+              <div className="dropdown" ref={dropdownRef}>
+                <DropdownMenu toggleDropdown={toggleDropdown} />
+              </div>
+            )}
+            <Link to="/cart">
+              <AiOutlineShoppingCart className="text-2xl text-gray-300 ml-4 hover:text-white transition" />
+            </Link>
+            <Link to="/notifications">
+              <AiOutlineBell className="text-2xl text-gray-300 ml-4 hover:text-white transition" />
+            </Link>
+          </nav>
+        ) : (
+          <nav className="flex items-center">
+            <Link
+              to="/login"
+              className="text-gray-300 py-2 px-4 hover:text-white transition"
+            >
+              ログイン
+            </Link>
 
-          <Link
-            to="/contact"
-            className="relative text-gray-300 py-2 px-4 hover:text-white transition"
-          >
-            お問い合わせ
-          </Link>
-        </nav>
+            <Link
+              to="/contact"
+              className="relative text-gray-300 py-2 px-4 hover:text-white transition"
+            >
+              お問い合わせ
+            </Link>
+          </nav>
+        )}
       </div>
     </header>
   );
