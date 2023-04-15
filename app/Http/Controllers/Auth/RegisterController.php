@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
-  /**
+    /**
      * ユーザー作成
      *
-     * @param RegisterRequest $request
+     * @param  RegisterRequest  $request
      * @return JsonResponse
      */
     public function __invoke(RegisterRequest $request): JsonResponse

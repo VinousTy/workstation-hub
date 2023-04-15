@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'confirmed', 'string', 'min:8', 'max:255', new AlphaNumSymbol(), Password::default()],
         ];
     }
-    
+
     /**
      * @return array
      */
