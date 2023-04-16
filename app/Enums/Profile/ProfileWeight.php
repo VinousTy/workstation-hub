@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -6,21 +6,23 @@ namespace App\Enums\Profile;
 
 use MyCLabs\Enum\Enum;
 
-
 /**
- * 身長データ
- * 
- * @method static ProfileHeight SHORT_STATURE()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight KILOGRAM_45()
- * @method static ProfileHeight TALL_STATURE()
+ * 体重データ
+ *
+ * @method static ProfileWeight LIGHT_WEIGHT()
+ * @method static ProfileWeight KILOGRAM_40()
+ * @method static ProfileWeight KILOGRAM_45()
+ * @method static ProfileWeight KILOGRAM_50()
+ * @method static ProfileWeight KILOGRAM_55()
+ * @method static ProfileWeight KILOGRAM_60()
+ * @method static ProfileWeight KILOGRAM_65()
+ * @method static ProfileWeight KILOGRAM_70()
+ * @method static ProfileWeight KILOGRAM_75()
+ * @method static ProfileWeight KILOGRAM_80()
+ * @method static ProfileWeight KILOGRAM_85()
+ * @method static ProfileWeight KILOGRAM_90()
+ * @method static ProfileWeight KILOGRAM_95()
+ * @method static ProfileWeight HEAVY_WEIGHT()
  */
 class ProfileWeight extends Enum
 {
