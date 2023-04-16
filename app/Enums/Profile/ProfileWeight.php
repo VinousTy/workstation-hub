@@ -67,4 +67,29 @@ class ProfileWeight extends Enum
 
     // 重体重
     private const HEAVY_WEIGHT = 14;
+
+    /**
+     * 一覧取得
+     *
+     * @return array
+     */
+    public static function getWeight(): array
+    {
+      return [
+          self::LIGHT_WEIGHT,
+          self::KILOGRAM_40,
+          self::KILOGRAM_45,
+          self::KILOGRAM_50,
+          self::KILOGRAM_55,
+          self::KILOGRAM_60,
+          self::KILOGRAM_65,
+          self::KILOGRAM_70,
+          self::KILOGRAM_75,
+          self::KILOGRAM_80,
+          self::KILOGRAM_85,
+          self::KILOGRAM_90,
+          self::KILOGRAM_95,
+          self::HEAVY_WEIGHT,
+      ];
+    }
 }

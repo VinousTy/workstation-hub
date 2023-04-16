@@ -55,4 +55,26 @@ class ProfileHeight extends Enum
 
     // 高身長
     private const TALL_STATURE = 11;
+
+    /**
+     * 一覧取得
+     *
+     * @return array
+     */
+    public static function getHeight(): array
+    {
+      return [
+          self::SHORT_STATURE,
+          self::CENTIMETERS_150,
+          self::CENTIMETERS_155,
+          self::CENTIMETERS_160,
+          self::CENTIMETERS_165,
+          self::CENTIMETERS_170,
+          self::CENTIMETERS_175,
+          self::CENTIMETERS_180,
+          self::CENTIMETERS_185,
+          self::CENTIMETERS_190,
+          self::TALL_STATURE,
+      ];
+    }
 }
