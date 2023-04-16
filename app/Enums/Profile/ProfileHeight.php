@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -6,10 +6,9 @@ namespace App\Enums\Profile;
 
 use MyCLabs\Enum\Enum;
 
-
 /**
  * 身長データ
- * 
+ *
  * @method static ProfileHeight SHORT_STATURE()
  * @method static ProfileHeight CENTIMETERS_150()
  * @method static ProfileHeight CENTIMETERS_155()
