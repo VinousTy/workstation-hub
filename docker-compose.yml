@@ -27,7 +27,7 @@ services:
       - ./public:/app/public
 
   db:
-    container_name: support-my-home-consideration_db
+    container_name: work-station-hub-consideration_db
     build:
       context: .
       dockerfile: .docker/mysql/Dockerfile
@@ -43,7 +43,7 @@ services:
       - .docker/mysql/mysql_volume:/var/lib/mysql
 
   swagger-ui:
-    container_name: support-my-home-consideration_swagger
+    container_name: work-station-hub-consideration_swagger
     image: swaggerapi/swagger-ui
     ports:
       - "8081:8080"
@@ -54,6 +54,38 @@ services:
 
   mailhog:
     image: mailhog/mailhog
-    container_name: support-my-home-consideration_mailhog
+    container_name: work-station-hub-consideration_mailhog
     ports:
       - 8025:8025
+
+  minio:
+    image: minio/minio
+    container_name: work-station-hub-minio
+    ports:
+      - "9001:9001"
+      - "9002:9002"
+    environment:
+      MINIO_ROOT_USER: access_key
+      MINIO_ROOT_PASSWORD: secret_key
+    entrypoint: bash
+    command: -c "/opt/bin/minio server /export --address :9001 --console-address :9002"
+
+  create-bucket:
+    container_name: work-station-hub-create-bucket
+    image: minio/mc
+    entrypoint: [""]
+    command:
+      - /bin/sh
+      - -c
+      - |
+        until (mc config host add minio http://minio:9001 access_key secret_key) do echo 'wait until add host' && sleep 1; done;
+        mc mb minio/public
+        mc policy set public minio/public
+        mc mb minio/private
+        mc policy set private minio/private
+        mc policy set private minio/private
+    environment:
+      MINIO_ROOT_USER: access_key
+      MINIO_ROOT_PASSWORD: secret_key
+    depends_on:
+      - minio
