@@ -45,15 +45,15 @@ return [
         ],
 
         's3_private' => [
-          'driver' => 's3',
-          'key' => env('MINIO_ROOT_USER', env('AWS_ACCESS_KEY_ID')),
-          'secret' => env('MINIO_ROOT_PASSWORD', env('AWS_SECRET_ACCESS_KEY')),
-          'region' => env('MINIO_DEFAULT_REGION', env('AWS_DEFAULT_REGION')),
-          'url' => env('MINIO_URL', env('AWS_URL')),
-          'endpoint' => env('MINIO_ENDPOINT', env('AWS_ENDPOINT')),
-          'use_path_style_endpoint' => (bool) env('MINIO_USE_PATH_STYLE_ENDPOINT', env('AWS_USE_PATH_STYLE_ENDPOINT', false)),
-          'bucket' => env('AWS_UPLOADS_PRIVATE_BUCKET'),
-      ],
+            'driver' => 's3',
+            'key' => env('MINIO_ROOT_USER', env('AWS_ACCESS_KEY_ID')),
+            'secret' => env('MINIO_ROOT_PASSWORD', env('AWS_SECRET_ACCESS_KEY')),
+            'region' => env('MINIO_DEFAULT_REGION', env('AWS_DEFAULT_REGION')),
+            'url' => env('MINIO_URL', env('AWS_URL')),
+            'endpoint' => env('MINIO_ENDPOINT', env('AWS_ENDPOINT')),
+            'use_path_style_endpoint' => (bool) env('MINIO_USE_PATH_STYLE_ENDPOINT', env('AWS_USE_PATH_STYLE_ENDPOINT', false)),
+            'bucket' => env('AWS_UPLOADS_PRIVATE_BUCKET'),
+        ],
 
     ],
 
