@@ -3,13 +3,27 @@ import { FaUserCircle } from "react-icons/fa";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { AiFillSetting } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../../features/store";
+import { useDispatch } from "react-redux";
+import { userLogout } from "../../../features/auth/authSlice";
 
 interface PROPS {
   toggleDropdown: () => void;
 }
 
 const DropdownMenu: React.FC<PROPS> = (props) => {
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await dispatch(userLogout())
+      .unwrap()
+      .then((res) => {
+        navigate("/login");
+      });
+  };
+
   return (
     <div className="absolute border border-gray-300 top-20 right-4 bg-header-color w-48 rounded-lg shadow-md">
       <Link
@@ -42,7 +56,7 @@ const DropdownMenu: React.FC<PROPS> = (props) => {
       <Link
         to="/logout"
         className="text-gray-300 block px-4 py-2 hover:bg-green-800 transition rounded-b-lg flex items-center"
-        onClick={props.toggleDropdown}
+        onClick={logout}
       >
         <BiLogOut />
         <span className="ml-1">ログアウト</span>

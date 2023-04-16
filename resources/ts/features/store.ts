@@ -12,7 +12,7 @@ import storage from "redux-persist/lib/storage/session";
 import authReducer from "./auth/authSlice";
 
 // redux-presistの設定
-const persistConfig = {
+export const persistConfig = {
   key: "auth", // 保存するkey名
   storage, // 使用するストレージ
 };

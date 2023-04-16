@@ -45,7 +45,7 @@ export const userLogin = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(error.response.data.errors);
       }
-      return rejectWithValue("サーバーに接続できません。");
+      return rejectWithValue("サーバーに接続できません");
     }
   }
 );
@@ -73,7 +73,7 @@ export const userRegister = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(error.response.data.errors);
       }
-      return rejectWithValue("サーバーに接続できません。");
+      return rejectWithValue("サーバーに接続できません");
     }
   }
 );
@@ -107,7 +107,7 @@ export const forgotPassword = createAsyncThunk(
       ) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("サーバーに接続できません。");
+      return rejectWithValue("サーバーに接続できません");
     }
   }
 );
@@ -144,7 +144,31 @@ export const resetPassword = createAsyncThunk(
       ) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("サーバーに接続できません。");
+      return rejectWithValue("サーバーに接続できません");
+    }
+  }
+);
+
+export const userLogout = createAsyncThunk(
+  "user/logout",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("api/logout", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      // axios例外であるかどうかを判定
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error);
+        return rejectWithValue(
+          "サーバーでエラーが発生しました。再度お試し下さい"
+        );
+      }
+      return rejectWithValue("サーバーに接続できません");
     }
   }
 );
@@ -152,7 +176,11 @@ export const resetPassword = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    closeMessage(state) {
+      state.message = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.isLogin = true;
@@ -182,13 +210,19 @@ export const authSlice = createSlice({
     builder.addCase(resetPassword.rejected, (state, action: any) => {
       state.errors = action.payload;
     });
+    builder.addCase(userLogout.fulfilled, (state, action) => {
+      state.isLogin = false;
+      state.message = action.payload.message;
+    });
   },
 });
+
+export const { closeMessage } = authSlice.actions;
 
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLogin;
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectEmail = (state: RootState) => state.auth.user.email;
-export const selectSuccessMessage = (state: RootState) => state.auth.message;
-export const selectMessage = (state: RootState) => state.auth.errors;
+export const selectMessage = (state: RootState) => state.auth.message;
+export const selectErrors = (state: RootState) => state.auth.errors;
 
 export default authSlice.reducer;
