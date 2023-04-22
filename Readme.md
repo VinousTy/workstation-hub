@@ -1,6 +1,6 @@
-# support-my-home-consideration
+# WorkStation Hub
 
-マイホーム検討支援システム
+WorkStation Hub
 
 ## overview
 
@@ -18,11 +18,11 @@
 - clone
 
   ```
-  $ git@github.com:VinousTy/support-my-home-consideration.git`
+  $ git@github.com:VinousTy/workstation-hub.git`
   ```
 
   ```
-  $ cd support-my-home-consideration
+  $ cd WorkStationHub
   ```
 
 - install
