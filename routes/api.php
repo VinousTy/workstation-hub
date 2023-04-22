@@ -17,7 +17,7 @@ Route::post('reset-password', NewPasswordController::class)->name('password.rese
 Route::post('/logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix('/profile')->group(function () {
-        Route::get('/', GetAuthUserProfileController::class)->name('profile.index');
+    Route::prefix('/profile')->name('profile.')->group(function () {
+        Route::get('/', GetAuthUserProfileController::class)->name('index');
     });
 });
