@@ -32,18 +32,17 @@ class UserEntity
     private UserPassword $password;
 
     /**
-     * @param UserId $id
-     * @param UserName $name
-     * @param UserEmail $email
-     * @param UserPassword $password
+     * @param  UserId  $id
+     * @param  UserName  $name
+     * @param  UserEmail  $email
+     * @param  UserPassword  $password
      */
     public function __construct(
       UserId $id,
       UserName $name,
       UserEmail $email,
       UserPassword $password,
-    )
-    {
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
@@ -82,4 +81,3 @@ class UserEntity
       return $this->password;
     }
 }
-

@@ -12,7 +12,7 @@ class UserName
     private string $value;
 
     /**
-     * @param string $value
+     * @param  string  $value
      */
     public function __construct(string $value)
     {
@@ -20,7 +20,7 @@ class UserName
     }
 
     /**
-     * @param string $value
+     * @param  string  $value
      * @return self
      */
     public static function create(string $value): self
