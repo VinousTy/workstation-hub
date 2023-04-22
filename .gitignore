@@ -19,3 +19,5 @@ yarn-error.log
 .prettierrc
 .docker/mysql/mysql_volume
 docs
+_ide_heoper.php
+_ide_heoper_models.php

@@ -9,10 +9,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Uid\Ulid;
 use Tests\Feature\Traits\Profile\ProfileTrait;
 use Tests\TestCase;
 
@@ -62,26 +60,26 @@ class GetAuthUserProfileTest extends TestCase
     /**
      * 期待するデータ
      *
-     * @param Profile $profile
+     * @param  Profile  $profile
      * @return array
      */
     private function getExpectedJsonData(Profile $profile): array
     {
         return [
-          'id' => $profile->id,
-          'user_id' => $profile->user_id,
-          'file_path' => $profile->file_path,
-          'height' => $profile->height,
-          'weight' => $profile->weight,
-          'account' => $profile->account,
-          'introduction' => $profile->introduction,
+            'id' => $profile->id,
+            'user_id' => $profile->user_id,
+            'file_path' => $profile->file_path,
+            'height' => $profile->height,
+            'weight' => $profile->weight,
+            'account' => $profile->account,
+            'introduction' => $profile->introduction,
         ];
     }
 
     /**
      * テスト共通処理
      *
-     * @param User $user
+     * @param  User  $user
      * @return TestResponse
      */
     private function commonExecution(User $user): TestResponse
