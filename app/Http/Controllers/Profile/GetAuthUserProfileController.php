@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\OpenApi\Responses\Profile\GetAuthUserProfileResponse;
 use App\UseCases\Profile\GetAuthUserProfile\GetAuthUserProfileUseCaseInterface;
 use App\UseCases\Profile\Outputs\GetAuthUserProfileOutput;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
+#[OpenApi\PathItem]
 class GetAuthUserProfileController extends Controller
 {
     /**
@@ -24,6 +27,8 @@ class GetAuthUserProfileController extends Controller
      *
      * @return JsonResponse
      */
+    #[OpenApi\Operation(tags: ['profile'])]
+    #[OpenApi\Response(factory: GetAuthUserProfileResponse::class)]
     public function __invoke(): JsonResponse
     {
         $profileEntity = $this->getAuthUserProfileUseCaseInterface->execute();
