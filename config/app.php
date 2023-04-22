@@ -196,6 +196,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\UseCaseServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        //openapi
+        Vyuldashev\LaravelOpenApi\OpenApiServiceProvider::class,
     ],
 
     /*
