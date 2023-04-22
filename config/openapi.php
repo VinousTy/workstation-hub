@@ -23,8 +23,8 @@ return [
 
             'tags' => [
                 [
-                   'name' => 'profile',
-                   'description' => 'profile tag',
+                    'name' => 'profile',
+                    'description' => 'profile tag',
                 ],
 
             ],
