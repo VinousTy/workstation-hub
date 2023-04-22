@@ -7,22 +7,31 @@ namespace App\Domain\ValueObjects\Profile;
 class ProfileHeight
 {
     /**
-     * @var string
+     * @var int|null
      */
-    private string $value;
+    private int|null $value;
 
     /**
-     * @param  string  $value
+     * @param  int|null  $value
      */
-    public function __construct(string $value)
+    public function __construct(int|null $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @return string
+     * @param  int|null  $value
+     * @return self
      */
-    public function getValue(): string
+    public static function create(int|null $value): self
+    {
+        return new self($value);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getValue(): int|null
     {
       return $this->value;
     }

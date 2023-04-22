@@ -19,6 +19,11 @@ class ProfileUserId
         $this->value = $value;
     }
 
+    public static function create(string $value): self
+    {
+        return new self($value);
+    }
+
     /**
      * @return string
      */

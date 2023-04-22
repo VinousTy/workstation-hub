@@ -7,22 +7,31 @@ namespace App\Domain\ValueObjects\Profile;
 class ProfileIntroduction
 {
     /**
-     * @var string
+     * @var string|null
      */
-    private string $value;
+    private string|null $value;
 
     /**
-     * @param  string  $value
+     * @param  string|null  $value
      */
-    public function __construct(string $value)
+    public function __construct(string|null $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @return string
+     * @param  string|null  $value
+     * @return self
      */
-    public function getValue(): string
+    public static function create(string|null $value): self
+    {
+        return new self($value);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getValue(): string|null
     {
       return $this->value;
     }
