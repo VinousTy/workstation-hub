@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -17,6 +18,9 @@ Route::post('reset-password', NewPasswordController::class)->name('password.rese
 Route::post('/logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('/user')->name('user.')->group(function () {
+        Route::post('/change/password', ChangePasswordController::class)->name('change.password');
+    });
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', GetAuthUserProfileController::class)->name('index');
     });
