@@ -9,7 +9,9 @@ use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\UseCases\Auth\ChangePassword\ChangePasswordUseCaseInterface;
 use App\UseCases\Auth\Inputs\ChangePasswordInput;
 use Illuminate\Http\JsonResponse;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
+#[OpenApi\PathItem]
 class ChangePasswordController extends Controller
 {
     /**
@@ -25,6 +27,8 @@ class ChangePasswordController extends Controller
      * @param  ChangePasswordRequest  $request
      * @return JsonResponse
      */
+    #[OpenApi\Operation(tags: ['user'])]
+    #[OpenApi\RequestBody(factory: ChangePasswordRequest::class)]
     public function __invoke(ChangePasswordRequest $request): JsonResponse
     {
         $this->changePasswordUseCaseInterface
