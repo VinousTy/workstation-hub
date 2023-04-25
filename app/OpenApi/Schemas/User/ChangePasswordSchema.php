@@ -14,7 +14,7 @@ class ChangePasswordSchema extends AbstractSchema implements Reusable
      */
     protected function getObjectId(): string
     {
-        return 'GetAuthUserProfileProfile';
+        return 'ChangePassword';
     }
 
     /**
