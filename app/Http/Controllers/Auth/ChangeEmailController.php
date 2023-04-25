@@ -21,7 +21,7 @@ class ChangeEmailController extends Controller
     /**
      * メールアドレス変更
      *
-     * @param ChangeEmailRequest $request
+     * @param  ChangeEmailRequest  $request
      * @return void
      */
     public function __invoke(ChangeEmailRequest $request)
