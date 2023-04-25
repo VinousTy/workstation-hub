@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ChangeEmailController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -17,8 +18,10 @@ Route::post('forgot-password', PasswordResetLinkController::class)->name('passwo
 Route::post('reset-password', NewPasswordController::class)->name('password.reset');
 Route::post('/logout', LogoutController::class)->name('logout');
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::prefix('/user')->name('user.')->group(function () {
+        Route::put('/change/email', ChangeEmailController::class)->name('change.email');
+        Route::get('/', ChangePasswordController::class)->name('email.update');
         Route::put('/change/password', ChangePasswordController::class)->name('change.password');
     });
     Route::prefix('/profile')->name('profile.')->group(function () {
