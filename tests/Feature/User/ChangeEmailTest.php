@@ -31,7 +31,7 @@ class ChangeEmailTest extends TestCase
         parent::setUp();
 
         $this->user = User::factory()->create([
-            'email' => 'test@mail.com'
+            'email' => 'test@mail.com',
         ]);
     }
 
@@ -64,7 +64,7 @@ class ChangeEmailTest extends TestCase
             'user_id' => $this->user->id,
             'new_email' => $newEmail,
         ]);
-        
+
         Notification::assertSentTo(
           $emailUpdate,
           VerifyUpdateEmailNotification::class,
@@ -76,15 +76,15 @@ class ChangeEmailTest extends TestCase
     /**
      * テスト共通処理
      *
-     * @param User $user
-     * @param string $newEmail
+     * @param  User  $user
+     * @param  string  $newEmail
      * @return TestResponse
      */
     public function commonExecution(User $user, string $newEmail): TestResponse
     {
         return $this->actingAs($user, $this->guard)
           ->put(route('api.user.change.email', [
-              'email' => $newEmail
+              'email' => $newEmail,
           ]));
     }
 }
