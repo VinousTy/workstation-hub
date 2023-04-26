@@ -15,6 +15,11 @@ class UseCaseServiceProvider extends ServiceProvider
         'Profile' => [
             'GetAuthUserProfile',
         ],
+        'Auth' => [
+            'ChangeEmail',
+            'UpdateEmail',
+            'ChangePassword',
+        ],
     ];
 
     /**
@@ -26,6 +31,18 @@ class UseCaseServiceProvider extends ServiceProvider
     {
         foreach (self::USECASES as $usecase => $functions) {
           foreach ($functions as $function) {
+              $this->app->singleton(
+                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCaseInterface",
+                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCase"
+              );
+              $this->app->singleton(
+                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCaseInterface",
+                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCase"
+              );
+              $this->app->singleton(
+                "App\UseCases\\{$usecase}\\ChangeEmail\\{$function}UseCaseInterface",
+                "App\UseCases\\{$usecase}\\ChangeEmail\\{$function}UseCase"
+              );
               $this->app->singleton(
                 "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCaseInterface",
                 "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCase"
