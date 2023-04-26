@@ -36,4 +36,28 @@ interface AuthUserRepository
      * @return void
      */
     public function changedNewPassword(string $password): void;
+
+    /**
+     * 更新するメールアドレスがユニークであるか確認
+     *
+     * @param  string  $newEmail
+     * @return bool
+     */
+    public function checkEmailDuplicated(string $newEmail): bool;
+
+    /**
+     * メールアドレス更新
+     *
+     * @param  string  $newEmail
+     * @return void
+     */
+    public function updateEmail(User $user, string $newEmail): void;
+
+    /**
+     * 更新したユーザーに紐づくEmailUpdateを削除
+     *
+     * @param  User  $user
+     * @return void
+     */
+    public function deletedEmailUpdate(User $user): void;
 }

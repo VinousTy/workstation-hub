@@ -53,4 +53,29 @@ class AuthUserRepositoryImpl implements AuthUserRepository
       $user = $this->getUser();
       $user->password = Hash::make($password);
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function checkEmailDuplicated(string $newEmail): bool
+  {
+      return User::where('email', $newEmail)->exists();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function updateEmail(User $user, string $newEmail): void
+  {
+      $user->email = $newEmail;
+      $user->save();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function deletedEmailUpdate(User $user): void
+  {
+      $user->email_update->delete();
+  }
 }
