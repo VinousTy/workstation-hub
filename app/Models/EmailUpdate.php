@@ -25,6 +25,26 @@ class EmailUpdate extends Model
     ];
 
     /**
+     * 無効なトークン
+     */
+    public const INVALID_TOKEN = 'email_update.invalid';
+
+    /**
+     * 期限切れトークン
+     */
+    public const EXPIRED_TOKEN = 'email_update.expired';
+
+    /**
+     * メール更新
+     */
+    public const EMAIL_UPDATED = 'email_update.updated';
+
+    /**
+     * メール重複
+     */
+    public const EMAIL_DUPLICATED = 'email_update.duplicated';
+
+    /**
      * @return BelongsTo
      */
     public function users(): BelongsTo
