@@ -74,4 +74,12 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifiedEmailNotification());
         Log::info('認証メール送信 (VerificationNotification) をqueueに渡し終えました。');
     }
+
+    /**
+     * @return HasOne
+     */
+    public function email_update(): HasOne
+    {
+      return $this->hasOne(EmailUpdate::class);
+    }
 }
