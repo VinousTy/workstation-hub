@@ -23,12 +23,31 @@ const initialState: USER_INITIALSTATE = {
   errors: [],
 };
 
+export const getAuthUser = createAsyncThunk(
+  "user/get",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axios.get("/api/user");
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      // axios例外であるかどうかを判定
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error);
+        return rejectWithValue("データを取得できませんでした");
+      }
+      console.log(error);
+      return rejectWithValue("サーバーに接続できません");
+    }
+  }
+);
+
 export const userLogin = createAsyncThunk(
   "user/login",
   async (loginData: LOGIN_DATA, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "api/login",
+        "/api/login",
         {
           email: loginData.email,
           password: loginData.password,
@@ -55,7 +74,7 @@ export const userRegister = createAsyncThunk(
   async (registerData: REGISTER_DATA, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "api/register",
+        "/api/register",
         {
           email: registerData.email,
           password: registerData.password,
@@ -153,7 +172,7 @@ export const userLogout = createAsyncThunk(
   "user/logout",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post("api/logout", {
+      const res = await axios.post("/api/logout", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -182,6 +201,9 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getAuthUser.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+    });
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.isLogin = true;
       state.user = action.payload.user;
