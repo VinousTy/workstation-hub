@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   LOGIN_DATA,
   POST_EMAIL_DATA,
+  POST_PASSWORD_DATA,
   REGISTER_DATA,
   RESET_PASSWORD_DATA,
   USER_INITIALSTATE,
@@ -28,7 +29,6 @@ export const getAuthUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get("/api/user");
-      console.log(res.data);
       return res.data;
     } catch (error) {
       // axios例外であるかどうかを判定
@@ -180,7 +180,43 @@ export const changeEmail = createAsyncThunk(
         {
           headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      // axios例外であるかどうかを判定
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.VALIDATION
+      ) {
+        return rejectWithValue(error.response.data.errors);
+      } else if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.SERVER_ERROR
+      ) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("サーバーに接続できません");
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "change/password",
+  async (postPasswordData: POST_PASSWORD_DATA, { rejectWithValue }) => {
+    try {
+      const res = await axios.put(
+        "/api/user/change/password",
+        {
+          password: postPasswordData.password,
+          password_confirmation: postPasswordData.passwordConfirmation,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
           },
         }
       );
@@ -271,6 +307,12 @@ export const authSlice = createSlice({
       state.message = action.payload.message;
     });
     builder.addCase(changeEmail.rejected, (state, action: any) => {
+      state.errors = action.payload;
+    });
+    builder.addCase(changePassword.fulfilled, (state, action: any) => {
+      state.message = action.payload.message;
+    });
+    builder.addCase(changePassword.rejected, (state, action: any) => {
       state.errors = action.payload;
     });
     builder.addCase(userLogout.fulfilled, (state, action) => {
