@@ -22,7 +22,7 @@ export interface REGISTER_DATA {
   passwordConfirmation: string;
 }
 
-export interface FORGOT_PASSWORD_DATA {
+export interface POST_EMAIL_DATA {
   email: string;
 }
 
