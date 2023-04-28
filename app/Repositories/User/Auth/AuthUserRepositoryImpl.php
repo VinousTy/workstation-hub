@@ -52,6 +52,7 @@ class AuthUserRepositoryImpl implements AuthUserRepository
   {
       $user = $this->getUser();
       $user->password = Hash::make($password);
+      $user->save();
   }
 
   /**
