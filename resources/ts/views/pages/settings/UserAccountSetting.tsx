@@ -61,7 +61,7 @@ const UserAccountSetting = () => {
                       アカウント名
                     </dt>
                     <dd className="flex items-center mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
-                      <span className="mr-2">{user.name}</span>
+                      <span className="mr-2">{user?.name}</span>
                       <span className="rounded-md shadow-sm">
                         <button
                           onClick={() => navigate("/settings/name")}
@@ -78,7 +78,7 @@ const UserAccountSetting = () => {
                       メールアドレス
                     </dt>
                     <dd className="flex items-center mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
-                      <span className="mr-2">{user.email}</span>
+                      <span className="mr-2">{user?.email}</span>
                       <span className="rounded-md shadow-sm">
                         <button
                           onClick={() => navigate("/settings/email")}
