@@ -30,6 +30,14 @@ interface AuthUserRepository
     public function changeEmail(User $user, UserEmail $newEmail, string $token, Carbon $requested_at): EmailUpdate;
 
     /**
+     * アカウント名変更
+     *
+     * @param  string  $password
+     * @return void
+     */
+    public function changedNewUserName(string $newName): void;
+
+    /**
      * パスワード変更
      *
      * @param  string  $password

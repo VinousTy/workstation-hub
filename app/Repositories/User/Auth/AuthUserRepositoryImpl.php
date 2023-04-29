@@ -31,6 +31,16 @@ class AuthUserRepositoryImpl implements AuthUserRepository
   /**
    * {@inheritDoc}
    */
+  public function changedNewUserName(string $newName): void
+  {
+      $user = $this->getUser();
+      $user->name = $newName;
+      $user->save();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function changeEmail(User $user, UserEmail $newEmail, string $token, Carbon $requested_at): EmailUpdate
   {
       return $user->email_update()->updateOrCreate(
