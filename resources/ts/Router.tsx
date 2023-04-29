@@ -13,12 +13,14 @@ import UserAccountSetting from "./views/pages/settings/UserAccountSetting";
 import EmailSettings from "./views/pages/settings/EmailSettings";
 import PasswordSettings from "./views/pages/settings/PasswordSettings";
 import UserNameSettings from "./views/pages/settings/UserNameSettings";
+import ProfileSettings from "./views/pages/settings/ProfileSettings";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
+        {/* 認証ページ */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify/email" element={<VerifyEmail />} />
@@ -36,10 +38,12 @@ const Router = () => {
           path="/reset-password/compalate"
           element={<ResetPasswordComplate />}
         />
+        {/* 設定ページ */}
         <Route path="/settings/account" element={<UserAccountSetting />} />
         <Route path="/settings/name" element={<UserNameSettings />} />
         <Route path="/settings/email" element={<EmailSettings />} />
         <Route path="/settings/password" element={<PasswordSettings />} />
+        <Route path="/settings/profile" element={<ProfileSettings />} />
       </Routes>
     </BrowserRouter>
   );
