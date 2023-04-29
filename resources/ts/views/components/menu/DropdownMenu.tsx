@@ -45,7 +45,7 @@ const DropdownMenu: React.FC<PROPS> = (props) => {
       </Link>
 
       <Link
-        to="/settings"
+        to="/settings/account"
         className="text-gray-300 block px-4 py-2 hover:bg-green-800 transition flex items-center"
         onClick={props.toggleDropdown}
       >

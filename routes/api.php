@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\ChangeEmailController;
 use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\Auth\ChangeUserNameController;
+use App\Http\Controllers\Auth\GetAuthUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -21,6 +23,8 @@ Route::post('/logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::prefix('/user')->name('user.')->group(function () {
+        Route::get('/', GetAuthUserController::class)->name('auth');
+        Route::put('/change/name', ChangeUserNameController::class)->name('change.name');
         Route::put('/change/email', ChangeEmailController::class)->name('change.email');
         Route::get('/update/email/{token}', UpdateEmailController::class)->name('email.update');
         Route::put('/change/password', ChangePasswordController::class)->name('change.password');

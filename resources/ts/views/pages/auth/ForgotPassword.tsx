@@ -8,6 +8,7 @@ import { SessionType } from "../../../utils/messageType";
 import SubmitButton from "../../components/button/SubmitButton";
 import InputForm from "../../components/form/InputForm";
 import SessionMessage from "../../components/message/SessionMessage";
+import { inputPlaceholder } from "../../../utils/lang";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -83,6 +84,7 @@ const ForgotPassword = () => {
             type="email"
             onChange={changedEmail}
             errorMessage={errors.email}
+            placeHolderText={inputPlaceholder.email}
           />
           <div className="mb-4">
             <p className="text-left text-gray-400">
