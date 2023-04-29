@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import loginImage from "../../../assets/auth/login-bro.jpg";
 import {
   changePassword,
+  changeUserName,
   closeMessage,
   selectMessage,
 } from "../../../features/auth/authSlice";
@@ -14,28 +15,20 @@ import InputForm from "../../components/form/InputForm";
 import SubmitButton from "../../components/button/SubmitButton";
 import { inputPlaceholder } from "../../../utils/lang";
 
-const PasswordSettings = () => {
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+const UserNameSettings = () => {
+  const [userName, setUserName] = useState("");
   const [errors, setErrors] = useState({
-    password: [],
+    userName: [],
   });
   const dispatch: AppDispatch = useDispatch();
   const message = useSelector(selectMessage);
   const presistKey = persistConfig.key;
 
-  const changedPassword = useCallback(
+  const changedUserName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value);
+      setUserName(e.target.value);
     },
-    [setPassword]
-  );
-
-  const changedPasswordConfirm = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPasswordConfirm(e.target.value);
-    },
-    [setPasswordConfirm]
+    [setUserName]
   );
 
   const handleCloseMessage = useCallback(() => {
@@ -47,15 +40,13 @@ const PasswordSettings = () => {
     e.preventDefault();
 
     await dispatch(
-      changePassword({
-        password: password,
-        passwordConfirmation: passwordConfirm,
+      changeUserName({
+        name: userName,
       })
     )
       .unwrap()
       .then((res) => {
-        setPassword("");
-        setPasswordConfirm("");
+        setUserName("");
       })
       .catch((error) => {
         setErrors(error);
@@ -91,27 +82,19 @@ const PasswordSettings = () => {
       )}
       <div className="bg-opacity-black p-8 rounded shadow-md max-w-md w-full">
         <h1 className="text-2xl text-gray-300 font-bold mb-6 text-center">
-          パスワード変更
+          アカウント名変更
         </h1>
         <div className="text-gray-300 mb-4">
-          <p>変更したいパスワードを入力してください。</p>
+          <p>変更したいアカウント名を入力してください。</p>
         </div>
         <form method="post" onSubmit={handleSubmit}>
           <InputForm
-            label="新規パスワード"
-            value={password}
-            type="password"
-            onChange={changedPassword}
-            errorMessage={errors.password}
-            placeHolderText={inputPlaceholder.password}
-          />
-          <InputForm
-            label="パスワード（確認用）"
-            value={passwordConfirm}
-            type="password"
-            onChange={changedPasswordConfirm}
-            errorMessage={errors.password}
-            placeHolderText={inputPlaceholder.passwordConfirm}
+            label="新規アカウント名"
+            value={userName}
+            type="text"
+            onChange={changedUserName}
+            errorMessage={errors.userName}
+            placeHolderText={inputPlaceholder.name}
           />
           <div className="mt-8">
             <SubmitButton label="パスワード変更" />
@@ -122,4 +105,4 @@ const PasswordSettings = () => {
   );
 };
 
-export default PasswordSettings;
+export default UserNameSettings;

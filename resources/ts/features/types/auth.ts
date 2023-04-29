@@ -22,6 +22,10 @@ export interface REGISTER_DATA {
   passwordConfirmation: string;
 }
 
+export interface POST_USER_NAME_DATA {
+  name: string;
+}
+
 export interface POST_EMAIL_DATA {
   email: string;
 }

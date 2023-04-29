@@ -6,6 +6,7 @@ import { AppDispatch } from "../../../features/store";
 import SubmitButton from "../../components/button/SubmitButton";
 import InputForm from "../../components/form/InputForm";
 import loginImage from "../../../assets/auth/login-bro.jpg";
+import { inputPlaceholder } from "../../../utils/lang";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -80,6 +81,7 @@ const Register = () => {
             type="email"
             onChange={changedEmail}
             errorMessage={errors.email}
+            placeHolderText={inputPlaceholder.email}
           />
           <InputForm
             label="パスワード"
@@ -87,6 +89,7 @@ const Register = () => {
             type="password"
             onChange={changedPassword}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.password}
           />
           <InputForm
             label="パスワード（確認用）"
@@ -94,6 +97,7 @@ const Register = () => {
             type="password"
             onChange={changedPasswordConfirm}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.passwordConfirm}
           />
           {errors.name && (
             <p className="text-red-500 text-sm font-bold">{errors?.name[0]}</p>

@@ -12,6 +12,7 @@ import ResetPasswordComplate from "./views/pages/auth/ResetPasswordCompalate";
 import UserAccountSetting from "./views/pages/settings/UserAccountSetting";
 import EmailSettings from "./views/pages/settings/EmailSettings";
 import PasswordSettings from "./views/pages/settings/PasswordSettings";
+import UserNameSettings from "./views/pages/settings/UserNameSettings";
 
 const Router = () => {
   return (
@@ -36,6 +37,7 @@ const Router = () => {
           element={<ResetPasswordComplate />}
         />
         <Route path="/settings/account" element={<UserAccountSetting />} />
+        <Route path="/settings/name" element={<UserNameSettings />} />
         <Route path="/settings/email" element={<EmailSettings />} />
         <Route path="/settings/password" element={<PasswordSettings />} />
       </Routes>
