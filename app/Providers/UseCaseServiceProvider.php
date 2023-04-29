@@ -16,6 +16,7 @@ class UseCaseServiceProvider extends ServiceProvider
             'GetAuthUserProfile',
         ],
         'Auth' => [
+            'ChangeUserName',
             'ChangeEmail',
             'UpdateEmail',
             'ChangePassword',
@@ -36,16 +37,8 @@ class UseCaseServiceProvider extends ServiceProvider
                 "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCase"
               );
               $this->app->singleton(
-                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCaseInterface",
-                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCase"
-              );
-              $this->app->singleton(
                 "App\UseCases\\{$usecase}\\ChangeEmail\\{$function}UseCaseInterface",
                 "App\UseCases\\{$usecase}\\ChangeEmail\\{$function}UseCase"
-              );
-              $this->app->singleton(
-                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCaseInterface",
-                "App\UseCases\\{$usecase}\\{$function}\\{$function}UseCase"
               );
           }
         }

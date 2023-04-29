@@ -1,104 +1,101 @@
-import React, { useCallback, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import SubmitButton from "../../components/button/SubmitButton";
-import InputForm from "../../components/form/InputForm";
+import React, { useCallback, useEffect, useState } from "react";
 import loginImage from "../../../assets/auth/login-bro.jpg";
-import { AppDispatch } from "../../../features/store";
+import {
+  changePassword,
+  closeMessage,
+  selectMessage,
+} from "../../../features/auth/authSlice";
+import { AppDispatch, persistConfig } from "../../../features/store";
 import { useDispatch } from "react-redux";
-import { resetPassword } from "../../../features/auth/authSlice";
+import { useSelector } from "react-redux";
 import SessionMessage from "../../components/message/SessionMessage";
 import { SessionType } from "../../../utils/messageType";
+import InputForm from "../../components/form/InputForm";
+import SubmitButton from "../../components/button/SubmitButton";
 import { inputPlaceholder } from "../../../utils/lang";
 
-const ResetPassword = () => {
+const PasswordSettings = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(0);
   const [errors, setErrors] = useState({
-    token: [],
     password: [],
   });
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get("token");
-  const email = searchParams.get("email");
+  const message = useSelector(selectMessage);
+  const presistKey = persistConfig.key;
 
   const changedPassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value);
     },
-    []
+    [setPassword]
   );
 
   const changedPasswordConfirm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setPasswordConfirm(e.target.value);
     },
-    [setPassword]
+    [setPasswordConfirm]
   );
 
   const handleCloseMessage = useCallback(() => {
-    setMessage("");
+    dispatch(closeMessage());
+    sessionStorage.removeItem(presistKey);
   }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    setPassword("");
-    setPasswordConfirm("");
-
     await dispatch(
-      resetPassword({
-        email: email,
+      changePassword({
         password: password,
         passwordConfirmation: passwordConfirm,
-        token: token,
       })
     )
       .unwrap()
       .then((res) => {
-        navigate("/reset-password/compalate");
+        setPassword("");
+        setPasswordConfirm("");
       })
       .catch((error) => {
-        if (typeof error === "string") {
-          setMessage(error);
-          setMessageType(SessionType.danger);
-        } else {
-          setErrors(error);
-          setMessageType(SessionType.danger);
-        }
+        setErrors(error);
       });
   };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(closeMessage());
+      sessionStorage.removeItem(presistKey);
+    }, 5000);
+    return () => clearTimeout(timeoutId);
+  }, [message]);
 
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-br from-blue-500 to-indigo-500 before:bg-opacity-black before:bg-inherit before:backdrop-filter before:backdrop-blur-lg before:absolute before:-top-5 before:-left-5 before:-right-5 before:-bottom-5 before:z-[-1]"
       style={{
         backgroundImage: ` linear-gradient(
-    rgba(32, 32, 32, 0.6),
-    rgba(32, 32, 32, 0.6)
-  ), url(${loginImage})`,
+        rgba(32, 32, 32, 0.6),
+        rgba(32, 32, 32, 0.6)
+      ), url(${loginImage})`,
       }}
     >
-      {message !== "" && (
-        <div className="absolute mx-auto md:top-28 max-w-md">
+      {message !== "" && message !== undefined && (
+        <div className="absolute mx-auto md:top-20 max-w-md">
           <SessionMessage
             message={message}
-            type={SessionType.danger}
+            type={SessionType.success}
             onClose={handleCloseMessage}
           />
         </div>
       )}
       <div className="bg-opacity-black p-8 rounded shadow-md max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center  text-gray-300">
-          パスワード再発行
+        <h1 className="text-2xl text-gray-300 font-bold mb-6 text-center">
+          パスワード変更
         </h1>
-        <p className="text-left text-xl mb-4  text-gray-300">
-          新しく登録したいパスワードを入力してください。
-        </p>
+        <div className="text-gray-300 mb-4">
+          <p>変更したいパスワードを入力してください。</p>
+        </div>
         <form method="post" onSubmit={handleSubmit}>
           <InputForm
             label="新規パスワード"
@@ -116,16 +113,13 @@ const ResetPassword = () => {
             errorMessage={errors.password}
             placeHolderText={inputPlaceholder.passwordConfirm}
           />
-          <div className="mb-4">
-            <p className="text-left text-gray-400">
-              入力が完了しましたら、送信ボタンをクリックしてください。
-            </p>
+          <div className="mt-8">
+            <SubmitButton label="パスワード変更" />
           </div>
-          <SubmitButton label="送信" />
         </form>
       </div>
     </div>
   );
 };
 
-export default ResetPassword;
+export default PasswordSettings;

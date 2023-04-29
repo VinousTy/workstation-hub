@@ -22,8 +22,17 @@ export interface REGISTER_DATA {
   passwordConfirmation: string;
 }
 
-export interface FORGOT_PASSWORD_DATA {
+export interface POST_USER_NAME_DATA {
+  name: string;
+}
+
+export interface POST_EMAIL_DATA {
   email: string;
+}
+
+export interface POST_PASSWORD_DATA {
+  password: string;
+  passwordConfirmation: string;
 }
 
 export interface RESET_PASSWORD_DATA {

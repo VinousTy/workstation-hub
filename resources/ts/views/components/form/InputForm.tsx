@@ -7,12 +7,10 @@ interface PROPS {
   type: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage: never[];
+  placeHolderText: string;
 }
 
 const InputForm: React.FC<PROPS> = (props) => {
-  const placeHolderText =
-    props.type === "email" ? inputPlaceholder.email : inputPlaceholder.password;
-
   return (
     <div className="mb-4 opacity-100">
       <label
@@ -29,7 +27,7 @@ const InputForm: React.FC<PROPS> = (props) => {
         required
         value={props.value}
         onChange={props.onChange}
-        placeholder={placeHolderText}
+        placeholder={props.placeHolderText}
       />
       {props.errorMessage && (
         <p className="text-red-500 text-sm font-bold">
