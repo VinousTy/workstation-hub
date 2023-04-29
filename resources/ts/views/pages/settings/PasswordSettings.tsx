@@ -12,6 +12,7 @@ import SessionMessage from "../../components/message/SessionMessage";
 import { SessionType } from "../../../utils/messageType";
 import InputForm from "../../components/form/InputForm";
 import SubmitButton from "../../components/button/SubmitButton";
+import { inputPlaceholder } from "../../../utils/lang";
 
 const PasswordSettings = () => {
   const [password, setPassword] = useState("");
@@ -102,6 +103,7 @@ const PasswordSettings = () => {
             type="password"
             onChange={changedPassword}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.password}
           />
           <InputForm
             label="パスワード（確認用）"
@@ -109,6 +111,7 @@ const PasswordSettings = () => {
             type="password"
             onChange={changedPasswordConfirm}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.passwordConfirm}
           />
           <div className="mt-8">
             <SubmitButton label="パスワード変更" />

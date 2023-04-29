@@ -13,6 +13,7 @@ import InputForm from "../../components/form/InputForm";
 import loginImage from "../../../assets/auth/login-bro.jpg";
 import SessionMessage from "../../components/message/SessionMessage";
 import { SessionType } from "../../../utils/messageType";
+import { inputPlaceholder } from "../../../utils/lang";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -103,6 +104,7 @@ const Login = () => {
             type="email"
             onChange={changedEmail}
             errorMessage={errors.email}
+            placeHolderText={inputPlaceholder.email}
           />
           <InputForm
             label="パスワード"
@@ -110,6 +112,7 @@ const Login = () => {
             type="password"
             onChange={changedPassword}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.password}
           />
           {errors.name && (
             <p className="text-red-500 text-sm font-bold">{errors?.name[0]}</p>

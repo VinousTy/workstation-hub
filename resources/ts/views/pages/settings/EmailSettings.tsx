@@ -12,6 +12,7 @@ import {
   closeMessage,
   selectMessage,
 } from "../../../features/auth/authSlice";
+import { inputPlaceholder } from "../../../utils/lang";
 
 const EmailSettings = () => {
   const [email, setEmail] = useState("");
@@ -90,6 +91,7 @@ const EmailSettings = () => {
             type="email"
             onChange={changedEmail}
             errorMessage={errors.email}
+            placeHolderText={inputPlaceholder.email}
           />
           <div className="mt-8">
             <SubmitButton label="メールアドレス変更" />

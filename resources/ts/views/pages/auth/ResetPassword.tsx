@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "../../../features/auth/authSlice";
 import SessionMessage from "../../components/message/SessionMessage";
 import { SessionType } from "../../../utils/messageType";
+import { inputPlaceholder } from "../../../utils/lang";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -105,6 +106,7 @@ const ResetPassword = () => {
             type="password"
             onChange={changedPassword}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.password}
           />
           <InputForm
             label="パスワード（確認用）"
@@ -112,6 +114,7 @@ const ResetPassword = () => {
             type="password"
             onChange={changedPasswordConfirm}
             errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.passwordConfirm}
           />
           <div className="mb-4">
             <p className="text-left text-gray-400">
