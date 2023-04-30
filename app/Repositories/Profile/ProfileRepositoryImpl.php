@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Profile\GetAuthUserProfile;
+namespace App\Repositories\Profile;
 
 use App\Domain\Entities\Profile\ProfileEntity;
 use App\Domain\Entities\Profile\ProfileFactory;
@@ -12,7 +12,7 @@ use App\Models\Profile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
-class GetAuthUserProfileRepositoryImpl implements GetAuthUserProfileRepository
+class ProfileRepositoryImpl implements ProfileRepository
 {
   /**
    * {@inheritDoc}

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Profile\GetAuthUserProfile;
+namespace App\Repositories\Profile;
 
 use App\Domain\Entities\Profile\ProfileEntity;
 use App\Domain\ValueObjects\Profile\ProfileUserId;
 
-interface GetAuthUserProfileRepository
+interface ProfileRepository
 {
   /**
    * プロフィール情報取得
