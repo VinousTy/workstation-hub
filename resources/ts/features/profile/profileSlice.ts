@@ -75,7 +75,11 @@ export const updateAuthUserProfile = createAsyncThunk(
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    closeProfileMessage(state) {
+      state.message = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProfile.fulfilled, (state, action) => {
       state.profile = action.payload;
@@ -89,6 +93,8 @@ export const profileSlice = createSlice({
     });
   },
 });
+
+export const { closeProfileMessage } = profileSlice.actions;
 
 export const selectProfile = (state: RootState) => state.profile;
 export const selectMessage = (state: RootState) => state.profile.message;

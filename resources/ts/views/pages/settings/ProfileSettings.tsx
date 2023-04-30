@@ -18,8 +18,7 @@ import {
 import { useSelector } from "react-redux";
 import SubmitButton from "../../components/button/SubmitButton";
 import SessionMessage from "../../components/message/SessionMessage";
-import { SessionType } from "../../../utils/messageType";
-import { closeMessage } from "../../../features/auth/authSlice";
+import { MessageClass, SessionType } from "../../../utils/messageType";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
@@ -116,6 +115,8 @@ const ProfileSettings = () => {
     fetchProfile();
   }, [dispatch]);
 
+  console.log(message);
+
   return (
     <div className="bg-application-all min-h-screen">
       <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -130,7 +131,7 @@ const ProfileSettings = () => {
                 <SessionMessage
                   message={message}
                   type={SessionType.success}
-                  onClose={handleCloseMessage}
+                  class={MessageClass.profile}
                 />
               </div>
             )}

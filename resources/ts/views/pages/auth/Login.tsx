@@ -2,17 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  closeMessage,
-  selectMessage,
-  userLogin,
-} from "../../../features/auth/authSlice";
+import { selectMessage, userLogin } from "../../../features/auth/authSlice";
 import { AppDispatch, persistConfig } from "../../../features/store";
 import SubmitButton from "../../components/button/SubmitButton";
 import InputForm from "../../components/form/InputForm";
 import loginImage from "../../../assets/auth/login-bro.jpg";
 import SessionMessage from "../../components/message/SessionMessage";
-import { SessionType } from "../../../utils/messageType";
+import { MessageClass, SessionType } from "../../../utils/messageType";
 import { inputPlaceholder } from "../../../utils/lang";
 
 const Login = () => {
@@ -26,7 +22,6 @@ const Login = () => {
   const dispatch: AppDispatch = useDispatch();
   const message = useSelector(selectMessage);
   const navigate = useNavigate();
-  const presistKey = persistConfig.key;
 
   const changedEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,11 +36,6 @@ const Login = () => {
     },
     [setPassword]
   );
-
-  const handleCloseMessage = useCallback(() => {
-    dispatch(closeMessage());
-    sessionStorage.removeItem(presistKey);
-  }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -65,15 +55,6 @@ const Login = () => {
       });
   };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(closeMessage());
-      sessionStorage.removeItem(presistKey);
-    }, 5000);
-
-    return () => clearTimeout(timeoutId);
-  }, [message]);
-
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-br from-blue-500 to-indigo-500 before:bg-opacity-black before:bg-inherit before:backdrop-filter before:backdrop-blur-lg before:absolute before:-top-5 before:-left-5 before:-right-5 before:-bottom-5 before:z-[-1]"
@@ -89,7 +70,7 @@ const Login = () => {
           <SessionMessage
             message={message}
             type={SessionType.success}
-            onClose={handleCloseMessage}
+            class={MessageClass.user}
           />
         </div>
       )}

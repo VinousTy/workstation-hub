@@ -7,7 +7,7 @@ import { AppDispatch } from "../../../features/store";
 import { useDispatch } from "react-redux";
 import { resetPassword } from "../../../features/auth/authSlice";
 import SessionMessage from "../../components/message/SessionMessage";
-import { SessionType } from "../../../utils/messageType";
+import { MessageClass, SessionType } from "../../../utils/messageType";
 import { inputPlaceholder } from "../../../utils/lang";
 
 const ResetPassword = () => {
@@ -39,10 +39,6 @@ const ResetPassword = () => {
     },
     [setPassword]
   );
-
-  const handleCloseMessage = useCallback(() => {
-    setMessage("");
-  }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -88,7 +84,7 @@ const ResetPassword = () => {
           <SessionMessage
             message={message}
             type={SessionType.danger}
-            onClose={handleCloseMessage}
+            class={MessageClass.user}
           />
         </div>
       )}
