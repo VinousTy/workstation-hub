@@ -61,17 +61,17 @@ class ProfileRepositoryImpl implements ProfileRepository
   public function updateProfileById(ProfileId $id, array $attribute): ProfileEntity
   {
       Log::info('プロフィール情報を更新します', [
-        'method' => __METHOD__,
-        'id' => $id->getValue(),
+          'method' => __METHOD__,
+          'id' => $id->getValue(),
       ]);
 
       Profile::where('id', $id->getValue())->update($attribute);
 
       Log::info('プロフィール情報を更新しました', [
-        'method' => __METHOD__,
-        'id' => $id->getValue(),
+          'method' => __METHOD__,
+          'id' => $id->getValue(),
       ]);
-      
+
       return $this->findOrFail($id);
   }
 }

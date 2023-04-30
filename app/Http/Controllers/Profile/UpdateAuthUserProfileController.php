@@ -41,16 +41,16 @@ class UpdateAuthUserProfileController extends Controller
             ));
 
         return response()->json([
-          'profile' => ( new GetAuthUserProfileOutput(
-              $profileEntity->getId()->getValue(),
-              $profileEntity->getUserId()->getValue(),
-              $profileEntity->getFilePath()->getValue(),
-              $profileEntity->getHeight()->getValue(),
-              $profileEntity->getWeight()->getValue(),
-              $profileEntity->getAccount()->getValue(),
-              $profileEntity->getIntroduction()->getValue(),
-            ))->toArray(),
-          'message' => __('message.success.profile.update')
+            'profile' => ( new GetAuthUserProfileOutput(
+                $profileEntity->getId()->getValue(),
+                $profileEntity->getUserId()->getValue(),
+                $profileEntity->getFilePath()->getValue(),
+                $profileEntity->getHeight()->getValue(),
+                $profileEntity->getWeight()->getValue(),
+                $profileEntity->getAccount()->getValue(),
+                $profileEntity->getIntroduction()->getValue(),
+              ))->toArray(),
+            'message' => __('message.success.profile.update'),
         ], Response::HTTP_OK);
     }
 }
