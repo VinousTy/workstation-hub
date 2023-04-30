@@ -7,19 +7,25 @@ import TextArea from "../../components/form/TextArea";
 import SelectBox from "../../components/form/SelectBox";
 import { profileHeightSelect } from "../../../utils/enums/profile/profileHeight";
 import { profileWeightSelect } from "../../../utils/enums/profile/profileWeight";
-import { AppDispatch } from "../../../features/store";
+import { AppDispatch, persistConfig } from "../../../features/store";
 import { useDispatch } from "react-redux";
 import {
   getProfile,
+  selectMessage,
   selectProfile,
+  updateAuthUserProfile,
 } from "../../../features/profile/profileSlice";
 import { useSelector } from "react-redux";
 import SubmitButton from "../../components/button/SubmitButton";
+import SessionMessage from "../../components/message/SessionMessage";
+import { SessionType } from "../../../utils/messageType";
+import { closeMessage } from "../../../features/auth/authSlice";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const profileData = useSelector(selectProfile);
+  const message = useSelector(selectMessage);
   const [filePath, setFilePath] = useState("");
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -31,6 +37,7 @@ const ProfileSettings = () => {
     account: [],
     introduction: [],
   });
+  const presistKey = persistConfig.key;
 
   const changedHeight = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -59,6 +66,35 @@ const ProfileSettings = () => {
     },
     [setIntroduction]
   );
+
+  const updateProfile = async () => {
+    await dispatch(
+      updateAuthUserProfile({
+        id: profileData.profile.id,
+        filePath: filePath,
+        height: height,
+        weight: weight,
+        account: account,
+        introduction: introduction,
+      })
+    )
+      .unwrap()
+      .then((res) => {
+        setFilePath(res.profile.file_path);
+        setHeight(res.profile.height);
+        setWeight(res.profile.weight);
+        setAccount(res.profile.account);
+        setIntroduction(res.profile.introduction);
+      })
+      .catch((error) => {
+        setErrors(error);
+      });
+  };
+
+  const handleCloseMessage = useCallback(() => {
+    dispatch(closeMessage());
+    sessionStorage.removeItem(presistKey);
+  }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -89,6 +125,15 @@ const ProfileSettings = () => {
         <div className="flex">
           <SettingsItem />
           <div className="w-2/3 bg-opacity-black">
+            {message !== "" && message !== undefined && (
+              <div className="absolute mx-auto md:top-20 max-w-md">
+                <SessionMessage
+                  message={message}
+                  type={SessionType.success}
+                  onClose={handleCloseMessage}
+                />
+              </div>
+            )}
             <div className="shadow overflow-hidden sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
                 <h2 className="text-lg leading-6 font-medium text-gray-300">
@@ -181,7 +226,10 @@ const ProfileSettings = () => {
                     </div>
                   </div>
                   <div className="mt-6">
-                    <SubmitButton label="更新する" />
+                    <SubmitButton
+                      clickEvent={() => updateProfile()}
+                      label="更新する"
+                    />
                   </div>
                 </div>
               </div>
