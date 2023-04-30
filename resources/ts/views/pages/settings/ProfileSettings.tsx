@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SettingsItem from "../../components/settings/SettingsItem";
 import InputForm from "../../components/form/InputForm";
@@ -7,9 +7,20 @@ import TextArea from "../../components/form/TextArea";
 import SelectBox from "../../components/form/SelectBox";
 import { profileHeightSelect } from "../../../utils/enums/profile/profileHeight";
 import { profileWeightSelect } from "../../../utils/enums/profile/profileWeight";
+import { AppDispatch } from "../../../features/store";
+import { useDispatch } from "react-redux";
+import {
+  getProfile,
+  selectProfile,
+} from "../../../features/profile/profileSlice";
+import { useSelector } from "react-redux";
+import SubmitButton from "../../components/button/SubmitButton";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const profileData = useSelector(selectProfile);
+  const [filePath, setFilePath] = useState("");
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
   const [account, setAccount] = useState("");
@@ -18,6 +29,7 @@ const ProfileSettings = () => {
     height: [],
     weight: [],
     account: [],
+    introduction: [],
   });
 
   const changedHeight = useCallback(
@@ -42,11 +54,31 @@ const ProfileSettings = () => {
   );
 
   const changedIntroduction = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setIntroduction(e.target.value);
     },
     [setIntroduction]
   );
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await dispatch(getProfile())
+        // Promiseが成功した場合に値を解決し、失敗した場合にはエラーをスロー
+        .unwrap()
+        .then((res) => {
+          setFilePath(profileData?.profile.filePath);
+          setHeight(profileData?.profile.height);
+          setWeight(profileData?.profile.weight);
+          setAccount(profileData?.profile.account);
+          setIntroduction(profileData?.profile.introduction);
+        })
+        .catch((error) => {
+          setErrors(error);
+        });
+    };
+
+    fetchProfile();
+  }, [dispatch]);
 
   return (
     <div className="bg-application-all min-h-screen">
@@ -77,19 +109,27 @@ const ProfileSettings = () => {
                         プロフィール画像
                       </label>
                       <div className="mt-1 flex items-center">
-                        <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100 mr-8">
-                          <svg
-                            className="h-full w-full text-gray-300"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M12 4a4 4 0 100 8 4 4 0 000-8zm0 6a2 2 0 11.001-3.999A2 2 0 0112 10zm7.071 6.071a10 10 0 01-14.142 0A8 8 0 1012 20a8 8 0 017.071-13.929z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
+                        {filePath ? (
+                          <img
+                            src={filePath}
+                            alt="プロフィール画像"
+                            className="h-12 w-12 rounded-full object-cover mr-8"
+                          />
+                        ) : (
+                          <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100 mr-8">
+                            <svg
+                              className="h-full w-full text-gray-300"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M12 4a4 4 0 100 8 4 4 0 000-8zm0 6a2 2 0 11.001-3.999A2 2 0 0112 10zm7.071 6.071a10 10 0 01-14.142 0A8 8 0 1012 20a8 8 0 017.071-13.929z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                        )}
                         <span className="rounded-md shadow-sm">
                           <button
                             type="button"
@@ -100,7 +140,7 @@ const ProfileSettings = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="col-span-6 sm:col-span-4">
+                    <div className="col-span-6">
                       <SelectBox
                         label="身長"
                         value={height}
@@ -135,10 +175,13 @@ const ProfileSettings = () => {
                         type="introduction"
                         row={3}
                         onChange={changedIntroduction}
-                        errorMessage={errors.account}
+                        errorMessage={errors.introduction}
                         placeHolderText={inputPlaceholder.introduction}
                       />
                     </div>
+                  </div>
+                  <div className="mt-6">
+                    <SubmitButton label="更新する" />
                   </div>
                 </div>
               </div>

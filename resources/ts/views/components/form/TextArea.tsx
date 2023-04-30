@@ -5,7 +5,7 @@ interface PROPS {
   value: string;
   type: string;
   row: number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   errorMessage: never[];
   placeHolderText: string;
 }
@@ -20,7 +20,9 @@ const TextArea: React.FC<PROPS> = (props) => {
         <textarea
           id={props.type}
           name={props.type}
+          value={props.value}
           rows={props.row}
+          onChange={props.onChange}
           className="border border-slate-700 rounded py-2 px-3 w-full bg-black text-white"
           placeholder={props.placeHolderText}
         />
