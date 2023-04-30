@@ -14,6 +14,7 @@ class UseCaseServiceProvider extends ServiceProvider
     private const USECASES = [
         'Profile' => [
             'GetAuthUserProfile',
+            'UpdateAuthUserProfile',
         ],
         'Auth' => [
             'ChangeUserName',

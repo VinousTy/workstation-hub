@@ -6,7 +6,7 @@ namespace App\UseCases\Profile\GetAuthUserProfile;
 
 use App\Domain\Entities\Profile\ProfileEntity;
 use App\Domain\ValueObjects\Profile\ProfileUserId;
-use App\Repositories\Profile\GetAuthUserProfile\GetAuthUserProfileRepository;
+use App\Repositories\Profile\ProfileRepository;
 use App\Repositories\User\Auth\AuthUserRepository;
 
 class GetAuthUserProfileUseCase implements GetAuthUserProfileUseCaseInterface
@@ -16,7 +16,7 @@ class GetAuthUserProfileUseCase implements GetAuthUserProfileUseCaseInterface
    */
   public function __construct(
     private readonly AuthUserRepository $authUserRepository,
-    private readonly GetAuthUserProfileRepository $getAuthUserProfileRepository,
+    private readonly ProfileRepository $getAuthUserProfileRepository,
   ) {
   }
 

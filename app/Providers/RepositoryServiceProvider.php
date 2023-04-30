@@ -16,7 +16,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'Auth',
         ],
         'Profile' => [
-            'GetAuthUserProfile',
+            'Profile',
         ],
     ];
 
@@ -34,8 +34,8 @@ class RepositoryServiceProvider extends ServiceProvider
               "App\Repositories\\{$model}\\{$function}\\{$function}UserRepositoryImpl",
             );
             $this->app->singleton(
-              "App\Repositories\\{$model}\\{$function}\\{$function}Repository",
-              "App\Repositories\\{$model}\\{$function}\\{$function}RepositoryImpl"
+              "App\Repositories\\{$model}\\{$function}Repository",
+              "App\Repositories\\{$model}\\{$function}RepositoryImpl"
             );
         }
       }
