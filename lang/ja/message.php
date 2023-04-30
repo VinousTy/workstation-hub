@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 return [
     'success' => [
         'profile' => [
-            'update' => 'プロフィールを更新しました。'
-        ]
-    ]
+            'update' => 'プロフィールを更新しました。',
+        ],
+    ],
 ];
