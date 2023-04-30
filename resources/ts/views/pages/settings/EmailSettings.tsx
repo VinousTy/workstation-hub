@@ -3,15 +3,11 @@ import InputForm from "../../components/form/InputForm";
 import SubmitButton from "../../components/button/SubmitButton";
 import loginImage from "../../../assets/auth/login-bro.jpg";
 import SessionMessage from "../../components/message/SessionMessage";
-import { SessionType } from "../../../utils/messageType";
+import { MessageClass, SessionType } from "../../../utils/messageType";
 import { AppDispatch, persistConfig } from "../../../features/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import {
-  changeEmail,
-  closeMessage,
-  selectMessage,
-} from "../../../features/auth/authSlice";
+import { changeEmail, selectMessage } from "../../../features/auth/authSlice";
 import { inputPlaceholder } from "../../../utils/lang";
 
 const EmailSettings = () => {
@@ -30,11 +26,6 @@ const EmailSettings = () => {
     [setEmail]
   );
 
-  const handleCloseMessage = useCallback(() => {
-    dispatch(closeMessage());
-    sessionStorage.removeItem(presistKey);
-  }, []);
-
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -48,15 +39,6 @@ const EmailSettings = () => {
         setErrors(error);
       });
   };
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(closeMessage());
-      sessionStorage.removeItem(presistKey);
-    }, 5000);
-
-    return () => clearTimeout(timeoutId);
-  }, [message]);
 
   return (
     <div
@@ -73,7 +55,7 @@ const EmailSettings = () => {
           <SessionMessage
             message={message}
             type={SessionType.success}
-            onClose={handleCloseMessage}
+            class={MessageClass.user}
           />
         </div>
       )}

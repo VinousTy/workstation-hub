@@ -10,7 +10,7 @@ import { AppDispatch, persistConfig } from "../../../features/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import SessionMessage from "../../components/message/SessionMessage";
-import { SessionType } from "../../../utils/messageType";
+import { MessageClass, SessionType } from "../../../utils/messageType";
 import InputForm from "../../components/form/InputForm";
 import SubmitButton from "../../components/button/SubmitButton";
 import { inputPlaceholder } from "../../../utils/lang";
@@ -31,11 +31,6 @@ const UserNameSettings = () => {
     [setUserName]
   );
 
-  const handleCloseMessage = useCallback(() => {
-    dispatch(closeMessage());
-    sessionStorage.removeItem(presistKey);
-  }, []);
-
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -53,14 +48,6 @@ const UserNameSettings = () => {
       });
   };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(closeMessage());
-      sessionStorage.removeItem(presistKey);
-    }, 5000);
-    return () => clearTimeout(timeoutId);
-  }, [message]);
-
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-br from-blue-500 to-indigo-500 before:bg-opacity-black before:bg-inherit before:backdrop-filter before:backdrop-blur-lg before:absolute before:-top-5 before:-left-5 before:-right-5 before:-bottom-5 before:z-[-1]"
@@ -76,7 +63,7 @@ const UserNameSettings = () => {
           <SessionMessage
             message={message}
             type={SessionType.success}
-            onClose={handleCloseMessage}
+            class={MessageClass.user}
           />
         </div>
       )}
