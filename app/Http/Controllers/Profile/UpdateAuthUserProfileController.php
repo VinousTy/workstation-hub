@@ -28,7 +28,7 @@ class UpdateAuthUserProfileController extends Controller
      * @param  UpdateAuthUserProfileRequest  $request
      * @return JsonResponse
      */
-    public function __invoke(UpdateAuthUserProfileRequest $request): JsonResponse
+    public function __invoke(UpdateAuthUserProfileRequest $request)
     {
         $profileEntity = $this->updateAuthUserProfileUseCaseInterface
             ->execute(new UpdateAuthUserProfileInput(
@@ -40,14 +40,17 @@ class UpdateAuthUserProfileController extends Controller
                 introduction: $request->getIntroduction(),
             ));
 
-        return response()->json((new GetAuthUserProfileOutput(
-            $profileEntity->getId()->getValue(),
-            $profileEntity->getUserId()->getValue(),
-            $profileEntity->getFilePath()->getValue(),
-            $profileEntity->getHeight()->getValue(),
-            $profileEntity->getWeight()->getValue(),
-            $profileEntity->getAccount()->getValue(),
-            $profileEntity->getIntroduction()->getValue()
-        ))->toArray(), Response::HTTP_OK);
+        return response()->json([
+          'profile' => ( new GetAuthUserProfileOutput(
+              $profileEntity->getId()->getValue(),
+              $profileEntity->getUserId()->getValue(),
+              $profileEntity->getFilePath()->getValue(),
+              $profileEntity->getHeight()->getValue(),
+              $profileEntity->getWeight()->getValue(),
+              $profileEntity->getAccount()->getValue(),
+              $profileEntity->getIntroduction()->getValue(),
+            ))->toArray(),
+          'message' => __('message.success.profile.update')
+        ], Response::HTTP_OK);
     }
 }
