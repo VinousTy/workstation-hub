@@ -8,31 +8,37 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Image\GeneratePreSignedUrlRequest;
 use App\UseCases\Image\GeneratePreSignedUrl\GeneratePreSignedUrlUseCaseInterface;
 use App\UseCases\Image\Inputs\GeneratePreSignedUrlInput;
-use Illuminate\Http\Request;
+use App\UseCases\Image\Outputs\GeneratePreSignedUrlOutput;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class GeneratePreSignedUrlController extends Controller
 {
     /**
-     * @param GeneratePreSignedUrlUseCaseInterface $generatePreSignedUrlUseCaseInterface
+     * @param  GeneratePreSignedUrlUseCaseInterface  $generatePreSignedUrlUseCaseInterface
      */
     public function __construct(
       private readonly GeneratePreSignedUrlUseCaseInterface $generatePreSignedUrlUseCaseInterface
-    )
-    {
+    ) {
     }
 
     /**
-     * Handle the incoming request.
+     * 署名付きURLを生成
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  GeneratePreSignedUrlRequest  $request
+     * @return JsonResponse
      */
-    public function __invoke(GeneratePreSignedUrlRequest $request)
+    public function __invoke(GeneratePreSignedUrlRequest $request): JsonResponse
     {
-       return $this->generatePreSignedUrlUseCaseInterface
+       $preSignedResult = $this->generatePreSignedUrlUseCaseInterface
           ->execute(new GeneratePreSignedUrlInput(
               $request->getParameter(),
               $request->getExtension(),
           ));
+
+        return response()->json((new GeneratePreSignedUrlOutput(
+            $preSignedResult['hash_file_name'],
+            $preSignedResult['pre_signed_url'],
+        ))->toArray(), Response::HTTP_OK);
     }
 }
