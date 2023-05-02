@@ -7,8 +7,8 @@ namespace App\UseCases\Image\Inputs;
 class GeneratePreSignedUrlInput
 {
     /**
-     * @param string $id
-     * @param string $extension
+     * @param  string  $id
+     * @param  string  $extension
      */
     public function __construct(
       private readonly string $id,

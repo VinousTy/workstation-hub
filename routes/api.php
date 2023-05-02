@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     });
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', GetAuthUserProfileController::class)->name('index');
-        Route::prefix('{profile_id}')->group(function() {
+        Route::prefix('{profile_id}')->group(function () {
           Route::post('presigned-url', GeneratePreSignedUrlController::class)->name('upload');
           Route::put('/update', UpdateAuthUserProfileController::class)->name('update');
         });

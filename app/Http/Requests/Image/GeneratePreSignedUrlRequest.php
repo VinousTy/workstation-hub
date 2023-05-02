@@ -25,7 +25,7 @@ class GeneratePreSignedUrlRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'extension' => ['required', 'string', new MineType($this->getExtension())]
+            'extension' => ['required', 'string', new MineType($this->getExtension())],
         ];
     }
 

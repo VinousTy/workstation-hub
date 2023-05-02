@@ -16,12 +16,12 @@ class S3RepositoryImpl implements S3Repository
     {
         Log::info('start generate s3 path', [
             'method' => __METHOD__,
-            'path' => $path
+            'path' => $path,
         ]);
 
         // s3クライアントを取得
         $client = Storage::disk($disk)->getClient();
-        
+
         // 署名付きURLを生成
         $command = $client->getCommand('PutObject', [
             'Bucket' => config('filesystems.disks.s3_private.bucket'),
