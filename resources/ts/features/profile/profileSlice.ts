@@ -39,7 +39,7 @@ export const updateAuthUserProfile = createAsyncThunk(
   async (updateProfileData: UPDATE_PROFILE_DATA, { rejectWithValue }) => {
     try {
       const res = await axios.put(
-        `/api/profile/update/${updateProfileData.id}`,
+        `/api/profile/${updateProfileData.id}/update/`,
         {
           file_path: updateProfileData.filePath,
           height: updateProfileData.height,
