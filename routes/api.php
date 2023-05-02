@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UpdateEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Image\GeneratePreSignedUrlController;
 use App\Http\Controllers\Profile\GetAuthUserProfileController;
 use App\Http\Controllers\Profile\UpdateAuthUserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,9 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     });
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', GetAuthUserProfileController::class)->name('index');
-        Route::put('/update/{profile_id}', UpdateAuthUserProfileController::class)->name('update');
+        Route::prefix('{profile_id}')->group(function() {
+          Route::post('presigned-url', GeneratePreSignedUrlController::class)->name('upload');
+          Route::put('/update', UpdateAuthUserProfileController::class)->name('update');
+        });
     });
 });

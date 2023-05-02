@@ -16,6 +16,9 @@ class UseCaseServiceProvider extends ServiceProvider
             'GetAuthUserProfile',
             'UpdateAuthUserProfile',
         ],
+        'Image' => [
+            'GeneratePreSignedUrl',
+        ],
         'Auth' => [
             'ChangeUserName',
             'ChangeEmail',

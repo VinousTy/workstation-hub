@@ -18,6 +18,9 @@ class RepositoryServiceProvider extends ServiceProvider
         'Profile' => [
             'Profile',
         ],
+        'Image' => [
+            'S3',
+        ]
     ];
 
     /**
