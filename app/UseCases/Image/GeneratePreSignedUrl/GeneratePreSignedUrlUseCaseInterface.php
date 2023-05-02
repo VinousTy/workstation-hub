@@ -8,6 +8,5 @@ use App\UseCases\Image\Inputs\GeneratePreSignedUrlInput;
 
 interface GeneratePreSignedUrlUseCaseInterface
 {
-    
     public function execute(GeneratePreSignedUrlInput $input): array;
 }

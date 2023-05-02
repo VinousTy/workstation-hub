@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\UseCases\Image\GeneratePreSignedUrl;
 
+use App\Exceptions\Image\GenerateUrlException;
 use App\Repositories\Image\S3Repository;
 use App\Traits\GeneratePreSignedUrl\MakeS3FilePath;
 use App\UseCases\Image\Inputs\GeneratePreSignedUrlInput;
+use Aws\S3\Exception\S3Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -15,7 +17,7 @@ class GeneratePreSignedUrlUseCase implements GeneratePreSignedUrlUseCaseInterfac
     use MakeS3FilePath;
 
     /**
-     * @param S3Repository $s3Repository
+     * @param  S3Repository  $s3Repository
      */
     public function __construct(private readonly S3Repository $s3Repository)
     {
@@ -30,32 +32,43 @@ class GeneratePreSignedUrlUseCase implements GeneratePreSignedUrlUseCaseInterfac
      */
     public function execute(GeneratePreSignedUrlInput $input): array
     {
+        try {
           $hashFileName = $this->getHashFileName($input->getExtension());
           $preSignedUrl = $this->generateUploadUrl($input->getId(), $hashFileName);
-  
+
           return [
               'hash_file_name' => $hashFileName,
               'pre_signed_url' => $preSignedUrl,
           ];
+        } catch (S3Exception $e) {
+          Log::error(__('exception.pre_signed_url.failed'), [
+              'method' => __METHOD__,
+              'error' => $e,
+              'profile_id' => $input->getId(),
+              'extension' => $input->getExtension(),
+          ]);
+
+          throw new GenerateUrlException(__('exception.pre_signed_url.failed'));
+        }
     }
 
     /**
      * ハッシュ化したファイル名を作成
      *
-     * @param string $extensition
+     * @param  string  $extensition
      * @return string
      */
     private function getHashFileName(string $extensition): string
     {
-        return Str::random(40) . '.' . $extensition;
+        return Str::random(40).'.'.$extensition;
     }
 
     /**
      * S3へ生成するパスを生成
      * S3へファイル格納
      *
-     * @param string $id
-     * @param string $hashFileName
+     * @param  string  $id
+     * @param  string  $hashFileName
      * @return string
      */
     private function generateUploadUrl(string $id, string $hashFileName): string
