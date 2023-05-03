@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UpdateEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Image\GeneratePreSignedUrlController;
+use App\Http\Controllers\Image\UploadImageController;
 use App\Http\Controllers\Profile\GetAuthUserProfileController;
 use App\Http\Controllers\Profile\UpdateAuthUserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +35,8 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', GetAuthUserProfileController::class)->name('index');
         Route::prefix('{profile_id}')->group(function () {
-          Route::post('presigned-url', GeneratePreSignedUrlController::class)->name('upload');
+          Route::post('/presigned-url', GeneratePreSignedUrlController::class)->name('upload');
+          Route::post('/upload', UploadImageController::class)->name('store');
           Route::put('/update', UpdateAuthUserProfileController::class)->name('update');
         });
     });

@@ -18,6 +18,7 @@ class UseCaseServiceProvider extends ServiceProvider
         ],
         'Image' => [
             'GeneratePreSignedUrl',
+            'UploadImage',
         ],
         'Auth' => [
             'ChangeUserName',
