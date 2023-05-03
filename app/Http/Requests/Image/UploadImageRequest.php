@@ -7,7 +7,7 @@ namespace App\Http\Requests\Image;
 use App\Rules\MineType;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GeneratePreSignedUrlRequest extends FormRequest
+class UploadImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,12 +20,15 @@ class GeneratePreSignedUrlRequest extends FormRequest
     }
 
     /**
-     * @return array
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             'extension' => ['required', 'string', new MineType($this->getExtension())],
+            'hash_file_name' => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -42,6 +45,14 @@ class GeneratePreSignedUrlRequest extends FormRequest
      */
     public function getExtension(): string
     {
-        return $this->input('extension') ?? '';
+        return $this->input('extension');
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashFileName(): string
+    {
+        return $this->input('hash_file_name');
     }
 }

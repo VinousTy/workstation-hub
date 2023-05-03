@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\UseCases\Image\Inputs;
 
-class GeneratePreSignedUrlInput
+class UploadImageInput
 {
     /**
      * @param  string  $id
      * @param  string  $extension
+     * @param  string  $hashFileName
      */
     public function __construct(
       private readonly string $id,
       private readonly string $extension,
+      private readonly string $hashFileName,
     ) {
     }
 
@@ -33,13 +35,10 @@ class GeneratePreSignedUrlInput
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getParams(): array
+    public function getHashFileName(): string
     {
-        return [
-            'id' => $this->id,
-            'extension' => $this->extension,
-        ];
+        return $this->hashFileName;
     }
 }

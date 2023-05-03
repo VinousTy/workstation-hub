@@ -20,7 +20,8 @@ class RepositoryServiceProvider extends ServiceProvider
         ],
         'Image' => [
             'S3',
-        ]
+            'Image',
+        ],
     ];
 
     /**
