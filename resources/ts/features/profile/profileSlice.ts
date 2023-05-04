@@ -8,7 +8,7 @@ const initialState = {
   profile: {
     id: "",
     userId: "",
-    filePath: "",
+    file_path: "",
     height: 0,
     weight: 0,
     account: "",
@@ -97,6 +97,8 @@ export const profileSlice = createSlice({
 export const { closeProfileMessage } = profileSlice.actions;
 
 export const selectProfile = (state: RootState) => state.profile;
+export const selectProfileImage = (state: RootState) =>
+  state.profile.profile.file_path;
 export const selectMessage = (state: RootState) => state.profile.message;
 export const selectErrors = (state: RootState) => state.profile.errors;
 

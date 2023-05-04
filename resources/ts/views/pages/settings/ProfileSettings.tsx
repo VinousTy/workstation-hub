@@ -19,6 +19,11 @@ import { useSelector } from "react-redux";
 import SubmitButton from "../../components/button/SubmitButton";
 import SessionMessage from "../../components/message/SessionMessage";
 import { MessageClass, SessionType } from "../../../utils/messageType";
+import {
+  fetchGeneratePreSignedUrl,
+  getExtension,
+  uploadFileToS3,
+} from "../../../utils/functional/image/image";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
@@ -66,6 +71,26 @@ const ProfileSettings = () => {
     [setIntroduction]
   );
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const extension = getExtension(file);
+
+    await fetchGeneratePreSignedUrl({
+      id: profileData.profile.id,
+      extension: extension,
+    }).then((res) => {
+      uploadFileToS3({
+        preSignedUrl: res.pre_signed_url,
+        file: file,
+      });
+    });
+  };
+
   const updateProfile = async () => {
     await dispatch(
       updateAuthUserProfile({
@@ -90,18 +115,13 @@ const ProfileSettings = () => {
       });
   };
 
-  const handleCloseMessage = useCallback(() => {
-    dispatch(closeMessage());
-    sessionStorage.removeItem(presistKey);
-  }, []);
-
   useEffect(() => {
     const fetchProfile = async () => {
       await dispatch(getProfile())
         // Promiseが成功した場合に値を解決し、失敗した場合にはエラーをスロー
         .unwrap()
         .then((res) => {
-          setFilePath(profileData?.profile.filePath);
+          setFilePath(profileData?.profile.file_path);
           setHeight(profileData?.profile.height);
           setWeight(profileData?.profile.weight);
           setAccount(profileData?.profile.account);
@@ -114,8 +134,6 @@ const ProfileSettings = () => {
 
     fetchProfile();
   }, [dispatch]);
-
-  console.log(message);
 
   return (
     <div className="bg-application-all min-h-screen">
@@ -177,12 +195,16 @@ const ProfileSettings = () => {
                           </span>
                         )}
                         <span className="rounded-md shadow-sm">
-                          <button
-                            type="button"
-                            className="inline-flex items-center px-3 py-1.5 border border-gray-300 leading-5 font-medium rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
-                          >
+                          <label className="inline-flex items-center px-3 py-1.5 border border-gray-300 leading-5 font-medium rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition cursor-pointer">
+                            <input
+                              type="file"
+                              id="profile-image"
+                              accept="image/*"
+                              className="sr-only"
+                              onChange={handleFileChange}
+                            />
                             画像を変更する
-                          </button>
+                          </label>
                         </span>
                       </div>
                     </div>
