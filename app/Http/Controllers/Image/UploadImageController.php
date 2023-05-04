@@ -37,14 +37,17 @@ class UploadImageController extends Controller
               $request->getHashFileName(),
           ));
 
-        return response()->json((new GetAuthUserProfileOutput(
-          $profileEntity->getId()->getValue(),
-          $profileEntity->getUserId()->getValue(),
-          $profileEntity->getFilePath()->getValue(),
-          $profileEntity->getHeight()->getValue(),
-          $profileEntity->getWeight()->getValue(),
-          $profileEntity->getAccount()->getValue(),
-          $profileEntity->getIntroduction()->getValue(),
-        ))->toArray(), Response::HTTP_OK);
+        return response()->json([
+            'profile' => (new GetAuthUserProfileOutput(
+                $profileEntity->getId()->getValue(),
+                $profileEntity->getUserId()->getValue(),
+                $profileEntity->getFilePath()->getValue(),
+                $profileEntity->getHeight()->getValue(),
+                $profileEntity->getWeight()->getValue(),
+                $profileEntity->getAccount()->getValue(),
+                $profileEntity->getIntroduction()->getValue(),
+              ))->toArray(),
+            'message' => __('message.success.profile.update_image'),
+        ], Response::HTTP_OK);
     }
 }
