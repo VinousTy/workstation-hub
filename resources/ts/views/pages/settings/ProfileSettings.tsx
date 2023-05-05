@@ -7,7 +7,7 @@ import TextArea from "../../components/form/TextArea";
 import SelectBox from "../../components/form/SelectBox";
 import { profileHeightSelect } from "../../../utils/enums/profile/profileHeight";
 import { profileWeightSelect } from "../../../utils/enums/profile/profileWeight";
-import { AppDispatch, persistConfig } from "../../../features/store";
+import { AppDispatch } from "../../../features/store";
 import { useDispatch } from "react-redux";
 import {
   getProfile,
@@ -25,24 +25,31 @@ import {
   getExtension,
   uploadFileToS3,
 } from "../../../utils/functional/image/image";
+import {
+  selectIsLoading,
+  setLoading,
+} from "../../../features/common/commonSlice";
+import Loading from "../../components/loading/Loading";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const profileData = useSelector(selectProfile);
+  let profileData = useSelector(selectProfile);
+  const isLoading = useSelector(selectIsLoading);
   const message = useSelector(selectMessage);
   const [filePath, setFilePath] = useState("");
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [account, setAccount] = useState("");
-  const [introduction, setIntroduction] = useState("");
+  const [height, setHeight] = useState(profileData?.profile?.height ?? 0);
+  const [weight, setWeight] = useState(profileData?.profile?.weight ?? 0);
+  const [account, setAccount] = useState(profileData?.profile?.account ?? "");
+  const [introduction, setIntroduction] = useState(
+    profileData?.profile?.introduction ?? ""
+  );
   const [errors, setErrors] = useState({
     height: [],
     weight: [],
     account: [],
     introduction: [],
   });
-  const presistKey = persistConfig.key;
 
   const changedHeight = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -126,18 +133,22 @@ const ProfileSettings = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
+      await dispatch(setLoading(true));
       await dispatch(getProfile())
         // Promiseが成功した場合に値を解決し、失敗した場合にはエラーをスロー
         .unwrap()
         .then((res) => {
-          setFilePath(profileData?.profile.file_path);
-          setHeight(profileData?.profile.height);
-          setWeight(profileData?.profile.weight);
-          setAccount(profileData?.profile.account);
-          setIntroduction(profileData?.profile.introduction);
+          setFilePath(res.file_path);
+          setHeight(res.height);
+          setWeight(res.weight);
+          setAccount(res.account);
+          setIntroduction(res.introduction);
         })
         .catch((error) => {
           setErrors(error);
+        })
+        .finally(() => {
+          dispatch(setLoading(false));
         });
     };
 
@@ -218,6 +229,7 @@ const ProfileSettings = () => {
                       </div>
                     </div>
                     <div className="col-span-6">
+                      {isLoading && <Loading />}
                       <SelectBox
                         label="身長"
                         value={height}
