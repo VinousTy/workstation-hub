@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-import { UPDATE_PROFILE_DATA } from "../types/profile";
+import {
+  UPDATE_PROFILE_DATA,
+  UPDATE_PROFILE_IMAGE_DATA,
+} from "../types/profile";
 import { StatusCode } from "../../utils/statusCode";
 
 const initialState = {
@@ -28,6 +31,44 @@ export const getProfile = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         console.log(error);
         return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue("サーバーに接続できません");
+    }
+  }
+);
+
+export const updateProfileImage = createAsyncThunk(
+  "image/update",
+  async (
+    updateProfileImageData: UPDATE_PROFILE_IMAGE_DATA,
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await axios.post(
+        `/api/profile/${updateProfileImageData.id}/upload/`,
+        {
+          extension: updateProfileImageData.extension,
+          hash_file_name: updateProfileImageData.hashFileName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.VALIDATION
+      ) {
+        return rejectWithValue(error.response.data.errors);
+      } else if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.NOT_FOUND
+      ) {
+        return rejectWithValue(error.response.data.message);
       }
       return rejectWithValue("サーバーに接続できません");
     }
@@ -83,6 +124,13 @@ export const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getProfile.fulfilled, (state, action) => {
       state.profile = action.payload;
+    });
+    builder.addCase(updateProfileImage.fulfilled, (state, action) => {
+      state.profile.file_path = action.payload.profile.file_path;
+      state.message = action.payload.message;
+    });
+    builder.addCase(updateProfileImage.rejected, (state, action) => {
+      state.errors = action.payload;
     });
     builder.addCase(updateAuthUserProfile.fulfilled, (state, action) => {
       state.profile = action.payload.profile;
