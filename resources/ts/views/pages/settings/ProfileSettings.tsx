@@ -14,6 +14,7 @@ import {
   selectMessage,
   selectProfile,
   updateAuthUserProfile,
+  updateProfileImage,
 } from "../../../features/profile/profileSlice";
 import { useSelector } from "react-redux";
 import SubmitButton from "../../components/button/SubmitButton";
@@ -83,10 +84,18 @@ const ProfileSettings = () => {
     await fetchGeneratePreSignedUrl({
       id: profileData.profile.id,
       extension: extension,
-    }).then((res) => {
+    }).then((generateResponse) => {
       uploadFileToS3({
-        preSignedUrl: res.pre_signed_url,
+        preSignedUrl: generateResponse.pre_signed_url,
         file: file,
+      }).then((response) => {
+        dispatch(
+          updateProfileImage({
+            id: profileData.profile.id,
+            extension: extension,
+            hashFileName: generateResponse.hash_file_name,
+          })
+        );
       });
     });
   };
