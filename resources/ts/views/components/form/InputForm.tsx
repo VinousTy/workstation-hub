@@ -1,5 +1,4 @@
 import React from "react";
-import { inputPlaceholder } from "../../../utils/lang";
 
 interface PROPS {
   label: string;
@@ -13,10 +12,7 @@ interface PROPS {
 const InputForm: React.FC<PROPS> = (props) => {
   return (
     <div className="mb-4 opacity-100">
-      <label
-        htmlFor={props.type}
-        className="block text-gray-400 font-bold mb-2 text-left"
-      >
+      <label htmlFor={props.type} className="block text-gray-400 text-left">
         {props.label}
       </label>
       <input

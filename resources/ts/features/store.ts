@@ -10,6 +10,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 import authReducer from "./auth/authSlice";
+import profileReducer from "./profile/profileSlice";
+import commonReducer from "./common/commonSlice";
 
 // redux-presistの設定
 export const persistConfig = {
@@ -23,6 +25,8 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedReducer,
+    profile: profileReducer,
+    common: commonReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

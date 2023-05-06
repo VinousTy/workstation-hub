@@ -303,7 +303,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    closeMessage(state) {
+    closeUserMessage(state) {
       state.message = "";
     },
   },
@@ -364,7 +364,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { closeMessage } = authSlice.actions;
+export const { closeUserMessage } = authSlice.actions;
 
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLogin;
 export const selectUser = (state: RootState) => state.auth.user;

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuthUser, selectUser } from "../../../features/auth/authSlice";
 import { AppDispatch } from "../../../features/store";
 import { useDispatch } from "react-redux";
+import SettingsItem from "../../components/settings/SettingsItem";
 
 const UserAccountSetting = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -11,39 +12,17 @@ const UserAccountSetting = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-      dispatch(getAuthUser())
+    dispatch(getAuthUser());
   }, [dispatch]);
 
   return (
     <div className="bg-application-all min-h-screen">
       <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-semibold text-gray-300 mb-4">設定</h1>
+        <h1 className="text-2xl font-semibold text-gray-300 mb-8">
+          アカウント設定
+        </h1>
         <div className="flex">
-          <div className="w-1/3 mr-4">
-            <ul className="divide-y divide-gray-200">
-              <li className="py-4 hover:bg-gray-700 transition">
-                <a href="#" className="block">
-                  <span className="text-sm font-medium text-gray-300">
-                    アカウント設定
-                  </span>
-                </a>
-              </li>
-              <li className="py-4 hover:bg-gray-700 transition">
-                <a href="#" className="block">
-                  <span className="text-sm font-medium text-gray-300">
-                    プロフィール設定
-                  </span>
-                </a>
-              </li>
-              <li className="py-4 hover:bg-gray-700 transition">
-                <a href="#" className="block">
-                  <span className="text-sm font-medium text-gray-300">
-                    お知らせ設定
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
+          <SettingsItem />
           <div className="w-2/3 bg-opacity-black">
             <div className="shadow overflow-hidden sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
@@ -56,7 +35,7 @@ const UserAccountSetting = () => {
               </div>
               <div className="border-t border-gray-200">
                 <dl>
-                <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-300">
                       アカウント名
                     </dt>
