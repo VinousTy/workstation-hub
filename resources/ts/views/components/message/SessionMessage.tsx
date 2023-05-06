@@ -1,21 +1,66 @@
-import React from "react";
-import { SessionType } from "../../../utils/messageType";
+import React, { useCallback, useEffect } from "react";
+import { MessageClass, SessionType } from "../../../utils/messageType";
+import { AppDispatch, persistConfig } from "../../../features/store";
+import { useDispatch } from "react-redux";
+import {
+  closeUserMessage,
+  selectMessage,
+} from "../../../features/auth/authSlice";
+import {
+  closeProfileMessage,
+  selectMessage as selectProfileMessage,
+} from "../../../features/profile/profileSlice";
+import { useSelector } from "react-redux";
 
 interface PROPS {
   message: string;
   type: number;
-  onClose: () => void;
+  class: number;
 }
 
 const SessionMessage: React.FC<PROPS> = (props) => {
+  const dispatch: AppDispatch = useDispatch();
+  const userMessage = useSelector(selectMessage);
+  const profileMessage = useSelector(selectProfileMessage);
+  const presistKey = persistConfig.key;
+
+  const message =
+    props.class === MessageClass.user ? userMessage : profileMessage;
+
   const bgColor =
     props.type === SessionType.danger ? "bg-red-500" : "bg-green-500";
+
+  const handleCloseMessage = useCallback(() => {
+    switch (props.class) {
+      case MessageClass.user:
+        dispatch(closeUserMessage());
+        sessionStorage.removeItem(presistKey);
+      case MessageClass.profile:
+        dispatch(closeProfileMessage());
+        sessionStorage.removeItem(presistKey);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      switch (props.class) {
+        case MessageClass.user:
+          dispatch(closeUserMessage());
+          sessionStorage.removeItem(presistKey);
+        case MessageClass.profile:
+          dispatch(closeProfileMessage());
+          sessionStorage.removeItem(presistKey);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, [userMessage, profileMessage]);
 
   return (
     <div className={`${bgColor} text-white py-3 px-4`}>
       <div className="flex justify-between items-center">
-        <p className="text-sm font-medium">{props.message}</p>
-        <button onClick={() => props.onClose()}>
+        <p className="text-sm font-medium">{message}</p>
+        <button onClick={() => handleCloseMessage()}>
           <svg
             className="w-4 h-4 fill-current"
             viewBox="0 0 20 20"

@@ -14,6 +14,11 @@ class UseCaseServiceProvider extends ServiceProvider
     private const USECASES = [
         'Profile' => [
             'GetAuthUserProfile',
+            'UpdateAuthUserProfile',
+        ],
+        'Image' => [
+            'GeneratePreSignedUrl',
+            'UploadImage',
         ],
         'Auth' => [
             'ChangeUserName',

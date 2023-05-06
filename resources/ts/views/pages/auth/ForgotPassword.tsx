@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../../features/auth/authSlice";
 import { AppDispatch } from "../../../features/store";
 import loginImage from "../../../assets/auth/login-bro.jpg";
-import { SessionType } from "../../../utils/messageType";
+import { MessageClass, SessionType } from "../../../utils/messageType";
 import SubmitButton from "../../components/button/SubmitButton";
 import InputForm from "../../components/form/InputForm";
 import SessionMessage from "../../components/message/SessionMessage";
@@ -25,10 +25,6 @@ const ForgotPassword = () => {
     },
     [setEmail]
   );
-
-  const handleCloseMessage = useCallback(() => {
-    setMessage("");
-  }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -66,7 +62,7 @@ const ForgotPassword = () => {
           <SessionMessage
             message={message}
             type={SessionType.danger}
-            onClose={handleCloseMessage}
+            class={MessageClass.user}
           />
         </div>
       )}
