@@ -7,9 +7,11 @@ import { selectIsLoggedIn } from "../../../features/auth/authSlice";
 import { AiOutlineShoppingCart, AiOutlineBell } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
 import DropdownMenu from "../menu/DropdownMenu";
+import { selectProfileImage } from "../../../features/profile/profileSlice";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const filePath = useSelector(selectProfileImage);
   const isLoginedIn = useSelector(selectIsLoggedIn);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,11 +59,19 @@ const Header = () => {
         {/* ナビゲーションバー */}
         {isLoginedIn ? (
           <nav className="flex items-center">
-            {/* <img src={userIcon} alt="User Icon" className="w-6 h-6" /> */}
-            <FaUserCircle
-              className="text-gray-300 w-8 h-8 cursor-pointer"
-              onClick={toggleDropdown}
-            />
+            {filePath ? (
+              <img
+                src={filePath}
+                alt="User Icon"
+                className="w-8 h-8 rounded-full object-cover cursor-pointer"
+                onClick={toggleDropdown}
+              />
+            ) : (
+              <FaUserCircle
+                className="text-gray-300 w-8 h-8 cursor-pointer"
+                onClick={toggleDropdown}
+              />
+            )}
             {isDropdownOpen && (
               <div className="dropdown" ref={dropdownRef}>
                 <DropdownMenu toggleDropdown={toggleDropdown} />
