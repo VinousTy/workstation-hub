@@ -19,13 +19,22 @@ export const persistConfig = {
   storage, // 使用するストレージ
 };
 
+export const presistProfileConfig = {
+  key: "profile",
+  storage,
+};
+
 // 永続化するためのreducer作成
 const persistedReducer = persistReducer(persistConfig, authReducer);
+const presistedProfileReducer = persistReducer(
+  presistProfileConfig,
+  profileReducer
+);
 
 export const store = configureStore({
   reducer: {
     auth: persistedReducer,
-    profile: profileReducer,
+    profile: presistedProfileReducer,
     common: commonReducer,
   },
   middleware: (getDefaultMiddleware) =>
