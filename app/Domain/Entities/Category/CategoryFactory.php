@@ -13,10 +13,10 @@ class CategoryFactory
   /**
    * Entity生成
    *
-   * @param Category $category
+   * @param  Category  $category
    * @return CategoryEntity
    */
-  public static function createProfile(Category $category): CategoryEntity
+  public static function createCategory(Category $category): CategoryEntity
   {
     return new CategoryEntity(
         CategoryId::create($category->id),

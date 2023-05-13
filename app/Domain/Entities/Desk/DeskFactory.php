@@ -17,7 +17,7 @@ class DeskFactory
    * @param  Desk  $desk
    * @return DeskEntity
    */
-  public static function createProfile(Desk $desk): DeskEntity
+  public static function createDesk(Desk $desk): DeskEntity
   {
     return new DeskEntity(
         DeskId::create($desk->id),

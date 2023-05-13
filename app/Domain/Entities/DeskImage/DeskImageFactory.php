@@ -18,7 +18,7 @@ class DeskImageFactory
    * @param  DeskImage  $deskImage
    * @return DeskImageEntity
    */
-  public static function createProfile(DeskImage $deskImage): DeskImageEntity
+  public static function createDeskImage(DeskImage $deskImage): DeskImageEntity
   {
     return new DeskImageEntity(
         DeskImageId::create($deskImage->id),
