@@ -22,7 +22,7 @@ class DeskFactory
     return new DeskEntity(
         DeskId::create($desk->id),
         DeskUserId::create($desk->user_id),
-        DeskDescription::create($desk->file_path),
+        DeskDescription::create($desk->description),
     );
   }
 }
