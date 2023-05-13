@@ -23,6 +23,6 @@ class Category extends Model
      */
     public function desks(): BelongsToMany
     {
-        return $this->belongsToMany(Desk::class);
+        return $this->belongsToMany(Desk::class, 'desk_category');
     }
 }

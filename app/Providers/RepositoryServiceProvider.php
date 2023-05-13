@@ -22,6 +22,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'S3',
             'Image',
         ],
+        'Desk' => [
+            'Desk',
+        ],
     ];
 
     /**

@@ -12,41 +12,17 @@ use App\Domain\ValueObjects\User\UserPassword;
 class UserEntity
 {
     /**
-     * @var UserId
-     */
-    private UserId $id;
-
-    /**
-     * @var UserName
-     */
-    private UserName $name;
-
-    /**
-     * @var UserEmail
-     */
-    private UserEmail $email;
-
-    /**
-     * @var UserPassword
-     */
-    private UserPassword $password;
-
-    /**
      * @param  UserId  $id
      * @param  UserName  $name
      * @param  UserEmail  $email
-     * @param  UserPassword  $password
+     * @param  UserPassword|null  $password
      */
     public function __construct(
-      UserId $id,
-      UserName $name,
-      UserEmail $email,
-      UserPassword $password,
+      private readonly UserId $id,
+      private readonly UserName $name,
+      private readonly UserEmail $email,
+      private readonly ?UserPassword $password,
     ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
     }
 
     /**
@@ -79,5 +55,18 @@ class UserEntity
     public function getPassword(): UserPassword
     {
       return $this->password;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+      return [
+          'id' => $this->getId()->getValue(),
+          'name' => $this->getName()->getValue(),
+          'email' => $this->getEmail()->getValue(),
+          'password' => $this->getPassword()->getValue(),
+      ];
     }
 }
