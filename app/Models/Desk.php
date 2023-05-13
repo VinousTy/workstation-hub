@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Desk extends Model
 {
@@ -36,10 +37,10 @@ class Desk extends Model
     }
 
     /**
-     * @return BelongsTo
+     * @return HasMany
      */
-    public function deskImages(): BelongsTo
+    public function deskImages(): HasMany
     {
-        return $this->belongsTo(DeskImage::class);
+        return $this->hasMany(DeskImage::class);
     }
 }
