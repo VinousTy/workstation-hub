@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Entities\User;
 
-use App\Domain\Entities\User\UserEntity;
 use App\Domain\ValueObjects\User\UserEmail;
 use App\Domain\ValueObjects\User\UserId;
 use App\Domain\ValueObjects\User\UserName;
@@ -16,7 +15,7 @@ class UserFactory
   /**
    * Entity生成
    *
-   * @param User $user
+   * @param  User  $user
    * @return UserEntity
    */
   public static function createUser(User $user): UserEntity
