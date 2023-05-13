@@ -66,7 +66,6 @@ class UserEntity
           'id' => $this->getId()->getValue(),
           'name' => $this->getName()->getValue(),
           'email' => $this->getEmail()->getValue(),
-          'password' => $this->getPassword()->getValue(),
       ];
     }
 }

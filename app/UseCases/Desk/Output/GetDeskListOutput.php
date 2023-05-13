@@ -60,7 +60,10 @@ class GetDeskListOutput
      */
     private function formatDeskEntityToArray(DeskEntity $desk): array
     {
-        return $desk->toArray();
+        $deskArray = $desk->toArray();
+        unset($deskArray['user_id']);
+
+        return $deskArray;
     }
 
     /**
@@ -69,7 +72,10 @@ class GetDeskListOutput
      */
     private function formatUserEntityToArray(UserEntity $user): array
     {
-        return $user->toArray();
+        $userArray = $user->toArray();
+        unset($userArray['email']);
+
+        return $userArray;
     }
 
     /**
@@ -78,7 +84,17 @@ class GetDeskListOutput
      */
     private function formatProfileEntityToArray(?ProfileEntity $profile): array|null
     {
-        return is_null($profile) ? null : $profile->toArray();
+        if (isset($profile)) {
+          $profileArray = $profile->toArray();
+          $extractProfile = [
+              'id' => $profileArray['id'],
+              'file_path' => $profileArray['file_path'],
+          ];
+
+          return $extractProfile;
+        } else {
+          return null;
+        }
     }
 
     /**
