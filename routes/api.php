@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UpdateEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Desk\GetDeskListController;
 use App\Http\Controllers\Image\GeneratePreSignedUrlController;
 use App\Http\Controllers\Image\UploadImageController;
 use App\Http\Controllers\Profile\GetAuthUserProfileController;
@@ -25,6 +26,7 @@ Route::post('reset-password', NewPasswordController::class)->name('password.rese
 Route::post('/logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
+    // users
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/', GetAuthUserController::class)->name('auth');
         Route::put('/change/name', ChangeUserNameController::class)->name('change.name');
@@ -32,6 +34,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
         Route::get('/update/email/{token}', UpdateEmailController::class)->name('email.update');
         Route::put('/change/password', ChangePasswordController::class)->name('change.password');
     });
+    // profiles
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', GetAuthUserProfileController::class)->name('index');
         Route::prefix('{profile_id}')->group(function () {
@@ -39,5 +42,9 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
           Route::post('/upload', UploadImageController::class)->name('store');
           Route::put('/update', UpdateAuthUserProfileController::class)->name('update');
         });
+    });
+    // desks
+    Route::prefix('/desk')->name('desk.')->group(function () {
+        Route::get('/', GetDeskListController::class)->name('index');
     });
 });
