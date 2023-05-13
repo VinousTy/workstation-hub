@@ -122,4 +122,20 @@ class ProfileEntity
     {
       return $this->introduction;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+      return [
+          'id' => $this->getId()->getValue(),
+          'user_id' => $this->getUserId()->getValue(),
+          'file_path' => $this->getFilePath()->getValue(),
+          'height' => $this->getHeight()->getValue(),
+          'weight' => $this->getWeight()->getValue(),
+          'account' => $this->getAccount()->getValue(),
+          'introduction' => $this->getIntroduction()->getValue(),
+      ];
+    }
 }

@@ -10,14 +10,13 @@ use App\Domain\ValueObjects\Category\CategoryName;
 class CategoryEntity
 {
   /**
-   * @param CategoryId $id
-   * @param CategoryName $name
+   * @param  CategoryId  $id
+   * @param  CategoryName  $name
    */
   public function __construct(
     private readonly CategoryId $id,
     private readonly CategoryName $name,
-  ) 
-  {
+  ) {
   }
 
   /**
@@ -34,5 +33,16 @@ class CategoryEntity
   public function getName(): CategoryName
   {
       return $this->name;
+  }
+
+  /**
+   * @return array
+   */
+  public function toArray(): array
+  {
+      return [
+          'id' => $this->getId()->getValue(),
+          'name' => $this->getName()->getValue(),
+      ];
   }
 }

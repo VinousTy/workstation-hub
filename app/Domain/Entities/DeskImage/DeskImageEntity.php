@@ -12,18 +12,17 @@ use App\Domain\ValueObjects\DeskImage\DeskImageId;
 class DeskImageEntity
 {
     /**
-     * @param DeskImageId $id
-     * @param DeskImageFileName $fileName
-     * @param DeskImageExtension $extension
-     * @param DeskImageFilePath $filePath
+     * @param  DeskImageId  $id
+     * @param  DeskImageFileName  $fileName
+     * @param  DeskImageExtension  $extension
+     * @param  DeskImageFilePath  $filePath
      */
     public function __construct(
       private readonly DeskImageId $id,
       private readonly DeskImageFileName $fileName,
       private readonly DeskImageExtension $extension,
       private readonly DeskImageFilePath $filePath,
-    ) 
-    {
+    ) {
     }
 
     /**
@@ -45,7 +44,7 @@ class DeskImageEntity
     /**
      * @return DeskExtension
      */
-    public function getDescription(): DeskImageExtension
+    public function getExtension(): DeskImageExtension
     {
         return $this->extension;
     }
@@ -56,5 +55,18 @@ class DeskImageEntity
     public function getFilePath(): DeskImageFilePath
     {
         return $this->filePath;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId()->getValue(),
+            'user_id' => $this->getUserId()->getValue(),
+            'extension' => $this->getExtension()->getValue(),
+            'file_path' => $this->getFilePath(),
+        ];
     }
 }
