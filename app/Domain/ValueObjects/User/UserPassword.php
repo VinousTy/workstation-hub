@@ -7,31 +7,33 @@ namespace App\Domain\ValueObjects\User;
 class UserPassword
 {
     /**
-     * @var string
+     * @var string|null
      */
-    private string $value;
+    private ?string $value;
 
     /**
-     * @param  string  $value
+     * Undocumented function
+     *
+     * @param  string|null  $value
      */
-    public function __construct(string $value)
+    public function __construct(?string $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @param  string  $value
+     * @param  string|null  $value
      * @return self
      */
-    public static function create(string $value): self
+    public static function create(?string $value): self
     {
         return new self($value);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getValue(): string
+    public function getValue(): string|null
     {
       return $this->value;
     }

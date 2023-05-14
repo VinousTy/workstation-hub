@@ -14,12 +14,15 @@ import EmailSettings from "./views/pages/settings/EmailSettings";
 import PasswordSettings from "./views/pages/settings/PasswordSettings";
 import UserNameSettings from "./views/pages/settings/UserNameSettings";
 import ProfileSettings from "./views/pages/settings/ProfileSettings";
+import TopPage from "./views/pages/top/TopPage";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
+        {/* トップページ */}
+        <Route path="/" element={<TopPage />} />
         {/* 認証ページ */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

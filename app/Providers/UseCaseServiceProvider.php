@@ -26,6 +26,9 @@ class UseCaseServiceProvider extends ServiceProvider
             'UpdateEmail',
             'ChangePassword',
         ],
+        'Desk' => [
+            'GetDeskList',
+        ],
     ];
 
     /**
