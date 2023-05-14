@@ -44,11 +44,6 @@ class GetAuthUserProfileOutput
     private ?string $introduction;
 
     /**
-     * @var string|null
-     */
-    private ?string $s3Path = null;
-
-    /**
      * @param  string  $id
      * @param  string  $userId
      * @param  string|null  $filePath
@@ -87,7 +82,7 @@ class GetAuthUserProfileOutput
       return [
           'id' => $this->id,
           'user_id' => $this->userId,
-          'file_path' => $this->s3Path ?? $s3Path.$this->filePath,
+          'file_path' => $this->filePath ? $s3Path.$this->filePath : $this->filePath,
           'height' => $this->height,
           'weight' => $this->weight,
           'account' => $this->account,

@@ -9,6 +9,7 @@ use App\Domain\Entities\Desk\DeskEntity;
 use App\Domain\Entities\DeskImage\DeskImageEntity;
 use App\Domain\Entities\Profile\ProfileEntity;
 use App\Domain\Entities\User\UserEntity;
+use Illuminate\Support\Facades\Storage;
 
 class GetDeskListOutput
 {
@@ -60,7 +61,10 @@ class GetDeskListOutput
      */
     private function formatDeskEntityToArray(DeskEntity $desk): array
     {
-        return $desk->toArray();
+        $deskArray = $desk->toArray();
+        unset($deskArray['user_id']);
+
+        return $deskArray;
     }
 
     /**
@@ -69,7 +73,10 @@ class GetDeskListOutput
      */
     private function formatUserEntityToArray(UserEntity $user): array
     {
-        return $user->toArray();
+        $userArray = $user->toArray();
+        unset($userArray['email']);
+
+        return $userArray;
     }
 
     /**
@@ -78,7 +85,19 @@ class GetDeskListOutput
      */
     private function formatProfileEntityToArray(?ProfileEntity $profile): array|null
     {
-        return is_null($profile) ? null : $profile->toArray();
+        if (isset($profile)) {
+          $profileArray = $profile->toArray();
+          $formatFilePath = $this->formatToProfileFilePath($profileArray['file_path']);
+
+          $extractProfile = [
+              'id' => $profileArray['id'],
+              'file_path' => $formatFilePath,
+          ];
+
+          return $extractProfile;
+        } else {
+          return null;
+        }
     }
 
     /**
@@ -97,5 +116,22 @@ class GetDeskListOutput
     private function formatImageEntityToArray(DeskImageEntity $image): array
     {
         return $image->toArray();
+    }
+
+    /**
+     * DB上のパスにs3のパスを結合
+     *
+     * @param  string|null  $filePath
+     * @return string|null
+     */
+    private function formatToProfileFilePath(string|null $filePath): string|null
+    {
+      if (isset($filePath)) {
+        $s3Path = Storage::disk('s3_private')->url(config('filesystems.disks.s3_private.bucket').'/');
+
+        return $s3Path.$filePath;
+      }
+
+      return null;
     }
 }
