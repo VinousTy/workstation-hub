@@ -16,4 +16,23 @@ export default defineConfig({
       host: "localhost",
     },
   },
+  css: {
+    modules: {
+      localsConvention: "camelCaseOnly",
+    },
+    postcss: {
+      plugins: [
+        require("tailwindcss"),
+        require("autoprefixer"),
+        // 以下を追加
+        require("postcss-modules-values-replace")({
+          replacements: {
+            "slick-theme.css":
+              "/node_modules/slick-carousel/slick/slick-theme.css",
+            "slick.css": "/node_modules/slick-carousel/slick/slick.css",
+          },
+        }),
+      ],
+    },
+  },
 });
