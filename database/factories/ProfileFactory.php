@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Enums\Profile\ProfileHeight;
 use App\Enums\Profile\ProfileWeight;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,10 +20,7 @@ class ProfileFactory extends Factory
      */
     public function definition()
     {
-        $users = User::pluck('id')->all();
-
         return [
-            'user_id' => $this->faker->randomElement($users),
             'height' => $this->faker->randomElement(ProfileHeight::getHeight()),
             'weight' => $this->faker->randomElement(ProfileWeight::getWeight()),
             'account' => $this->faker->url,

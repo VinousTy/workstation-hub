@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,10 +18,7 @@ class DeskFactory extends Factory
      */
     public function definition()
     {
-        $userIds = User::pluck('id');
-
         return [
-            'user_id' => $this->faker->randomElement($userIds),
             'description' => $this->faker->realText(),
         ];
     }
