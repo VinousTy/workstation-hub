@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../features/store";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../features/auth/authSlice";
+import { presistProfileConfig } from "../../../features/store";
+import sessionStorage from "redux-persist/es/storage/session";
 
 interface PROPS {
   toggleDropdown: () => void;
@@ -15,11 +17,13 @@ interface PROPS {
 const DropdownMenu: React.FC<PROPS> = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const presistKey = presistProfileConfig.key;
 
   const logout = async () => {
     await dispatch(userLogout())
       .unwrap()
       .then((res) => {
+        sessionStorage.removeItem(`persist:${presistKey}`);
         navigate("/login");
       });
   };

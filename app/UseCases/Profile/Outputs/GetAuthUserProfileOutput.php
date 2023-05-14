@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCases\Profile\Outputs;
 
+use Illuminate\Support\Facades\Storage;
+
 class GetAuthUserProfileOutput
 {
     /**
@@ -73,10 +75,14 @@ class GetAuthUserProfileOutput
      */
     public function toArray(): array
     {
+      if (isset($this->filePath)) {
+        $s3Path = Storage::disk('s3_private')->url(config('filesystems.disks.s3_private.bucket').'/');
+      }
+
       return [
           'id' => $this->id,
           'user_id' => $this->userId,
-          'file_path' => $this->filePath,
+          'file_path' => $this->filePath ? $s3Path.$this->filePath : $this->filePath,
           'height' => $this->height,
           'weight' => $this->weight,
           'account' => $this->account,
