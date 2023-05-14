@@ -29,7 +29,7 @@ const DropdownMenu: React.FC<PROPS> = (props) => {
   };
 
   return (
-    <div className="absolute border border-gray-300 top-20 right-4 bg-header-color w-48 rounded-lg shadow-md">
+    <div className="!z-50 absolute border border-gray-300 top-20 right-4 bg-header-color w-48 rounded-lg shadow-md">
       <Link
         to="/mypage"
         className="text-gray-300 block px-4 py-2 hover:bg-green-800 transition rounded-t-lg flex items-center"
