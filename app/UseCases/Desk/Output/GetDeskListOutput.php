@@ -9,6 +9,7 @@ use App\Domain\Entities\Desk\DeskEntity;
 use App\Domain\Entities\DeskImage\DeskImageEntity;
 use App\Domain\Entities\Profile\ProfileEntity;
 use App\Domain\Entities\User\UserEntity;
+use Illuminate\Support\Facades\Storage;
 
 class GetDeskListOutput
 {
@@ -86,9 +87,11 @@ class GetDeskListOutput
     {
         if (isset($profile)) {
           $profileArray = $profile->toArray();
+          $formatFilePath = $this->formatToProfileFilePath($profileArray['file_path']);
+
           $extractProfile = [
               'id' => $profileArray['id'],
-              'file_path' => $profileArray['file_path'],
+              'file_path' => $formatFilePath,
           ];
 
           return $extractProfile;
@@ -113,5 +116,22 @@ class GetDeskListOutput
     private function formatImageEntityToArray(DeskImageEntity $image): array
     {
         return $image->toArray();
+    }
+
+    /**
+     * DB上のパスにs3のパスを結合
+     *
+     * @param  string|null  $filePath
+     * @return string|null
+     */
+    private function formatToProfileFilePath(string|null $filePath): string|null
+    {
+      if (isset($filePath)) {
+        $s3Path = Storage::disk('s3_private')->url(config('filesystems.disks.s3_private.bucket').'/');
+
+        return $s3Path.$filePath;
+      }
+
+      return null;
     }
 }
