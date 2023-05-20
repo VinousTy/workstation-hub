@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategoryFactory extends Factory
 {
+    private $currentIndex = 0;
+
     /**
      * Define the model's default state.
      *
@@ -19,8 +21,10 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
+        $categoryNames = CategoryName::getCategoryName();
+
         return [
-            'name' => $this->faker->randomElement(CategoryName::getCategoryName()),
+            'name' => $categoryNames[$this->currentIndex++],
         ];
     }
 }
