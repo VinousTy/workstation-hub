@@ -34,6 +34,6 @@ class StoreDeskController extends Controller
           $request->getCategoryName(),
         ));
 
-        return response()->json(Response::HTTP_NO_CONTENT);
+        return response()->json(status: Response::HTTP_NO_CONTENT);
     }
 }
