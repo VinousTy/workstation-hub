@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UpdateEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Desk\GetDeskListController;
+use App\Http\Controllers\Desk\StoreDeskController;
 use App\Http\Controllers\Image\GeneratePreSignedUrlController;
 use App\Http\Controllers\Image\UploadImageController;
 use App\Http\Controllers\Profile\GetAuthUserProfileController;
@@ -46,5 +47,6 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     // desks
     Route::prefix('/desk')->name('desk.')->group(function () {
         Route::get('/', GetDeskListController::class)->name('index');
+        Route::post('/', StoreDeskController::class)->name('store');
     });
 });

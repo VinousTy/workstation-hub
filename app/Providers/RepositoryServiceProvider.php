@@ -25,6 +25,12 @@ class RepositoryServiceProvider extends ServiceProvider
         'Desk' => [
             'Desk',
         ],
+        'Category' => [
+            'Category',
+        ],
+        'DeskCategory' => [
+            'DeskCategory',
+        ],
     ];
 
     /**
