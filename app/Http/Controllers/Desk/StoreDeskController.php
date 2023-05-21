@@ -31,7 +31,7 @@ class StoreDeskController extends Controller
     {
         $this->storeDeskUseCaseInterface->execute(new StoreDeskInput(
           $request->getDescription(),
-          $request->getCategoryName(),
+          $request->getCategoryNames(),
         ));
 
         return response()->json(status: Response::HTTP_NO_CONTENT);

@@ -51,9 +51,9 @@ class StoreDeskRequest extends FormRequest
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getCategoryName(): string
+    public function getCategoryNames(): array
     {
         return $this->category_name;
     }

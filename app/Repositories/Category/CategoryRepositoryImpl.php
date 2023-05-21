@@ -6,7 +6,6 @@ namespace App\Repositories\Category;
 
 use App\Domain\Entities\Category\CategoryEntity;
 use App\Domain\Entities\Category\CategoryFactory;
-use App\Domain\ValueObjects\Category\CategoryName;
 use App\Models\Category;
 
 class CategoryRepositoryImpl implements CategoryRepository
@@ -14,11 +13,13 @@ class CategoryRepositoryImpl implements CategoryRepository
     /**
      * {@inheritDoc}
      */
-    public function firstOrCreate(CategoryName $name): CategoryEntity
+    public function firstOrCreate(array $names): CategoryEntity
     {
-        $category = Category::firstOrCreate([
-            'name' => $name->getValue(),
-        ]);
+        foreach ($names as $name) {
+          $category = Category::firstOrCreate([
+              'name' => $name,
+          ]);
+        }
 
         return CategoryFactory::createCategory($category);
     }

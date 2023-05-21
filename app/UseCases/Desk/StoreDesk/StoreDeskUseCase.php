@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UseCases\Desk\StoreDesk;
 
-use App\Domain\ValueObjects\Category\CategoryName;
 use App\Domain\ValueObjects\Desk\DeskDescription;
 use App\Domain\ValueObjects\User\UserId;
 use App\Models\Desk;
@@ -46,7 +45,7 @@ class StoreDeskUseCase implements StoreDeskUseCaseInterface
               UserId::create($user->id),
               DeskDescription::create($input->getDescription()
             ));
-            $category = $this->categoryReposity->firstOrCreate(CategoryName::create($input->getCategoryName()));
+            $category = $this->categoryReposity->firstOrCreate($input->getCategoryNames());
             $this->deskCategoryReposity->storeDeskCategory(
               new Desk([
                   'id' => $desk->getId()->getValue(),

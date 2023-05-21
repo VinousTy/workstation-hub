@@ -8,11 +8,11 @@ class StoreDeskInput
 {
     /**
      * @param  string|null  $description
-     * @param  string  $categoryName
+     * @param  array  $categoryName
      */
     public function __construct(
       private readonly ?string $description,
-      private readonly string $categoryName,
+      private readonly array $categoryNames,
     ) {
     }
 
@@ -25,10 +25,10 @@ class StoreDeskInput
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getCategoryName(): string
+    public function getCategoryNames(): array
     {
-        return $this->categoryName;
+        return $this->categoryNames;
     }
 }
