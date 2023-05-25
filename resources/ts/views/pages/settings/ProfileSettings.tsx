@@ -30,6 +30,7 @@ import {
   setLoading,
 } from "../../../features/common/commonSlice";
 import Loading from "../../components/loading/Loading";
+import { imageType } from "../../../utils/enums/image/imageType";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
@@ -91,6 +92,7 @@ const ProfileSettings = () => {
     await fetchGeneratePreSignedUrl({
       id: profileData.profile.id,
       extension: extension,
+      type: imageType.PROFILE,
     }).then((generateResponse) => {
       uploadFileToS3({
         preSignedUrl: generateResponse.pre_signed_url,
@@ -101,6 +103,7 @@ const ProfileSettings = () => {
             id: profileData.profile.id,
             extension: extension,
             hashFileName: generateResponse.hash_file_name,
+            type: imageType.PROFILE,
           })
         );
       });

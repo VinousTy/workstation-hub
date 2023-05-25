@@ -25,6 +25,7 @@ export const fetchGeneratePreSignedUrl = async (
       `/api/profile/${imageData.id}/presigned-url/`,
       {
         extension: imageData.extension,
+        type: imageData.type,
       },
       {
         headers: {
