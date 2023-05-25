@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import axios from "axios";
-import { DESK_INITIALSTATE } from "../types/desk";
+import { DESK_INITIALSTATE, POST_DESK_DATA } from "../types/desk";
+import { StatusCode } from "../../utils/statusCode";
 
 const initialState: DESK_INITIALSTATE = {
   data: [
@@ -27,6 +28,7 @@ const initialState: DESK_INITIALSTATE = {
       images: [],
     },
   ],
+  errors: [] as unknown,
 };
 
 export const getDeskList = createAsyncThunk(
@@ -45,6 +47,27 @@ export const getDeskList = createAsyncThunk(
   }
 );
 
+export const registDesk = createAsyncThunk(
+  "desk/post",
+  async (postData: POST_DESK_DATA, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("/api/desk", {
+        category_name: postData.category,
+        description: postData.description,
+      });
+      return res.data;
+    } catch (error) {
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.VALIDATION
+      ) {
+        return rejectWithValue(error.response.data.errors);
+      }
+      return rejectWithValue("サーバーに接続できません");
+    }
+  }
+);
+
 export const deskSlice = createSlice({
   name: "desk",
   initialState,
@@ -52,6 +75,12 @@ export const deskSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getDeskList.fulfilled, (state, action) => {
       state.data = action.payload;
+    });
+    builder.addCase(registDesk.fulfilled, (state, action) => {
+      state.data = action.payload;
+    });
+    builder.addCase(registDesk.rejected, (state, action) => {
+      state.errors = action.payload;
     });
   },
 });
