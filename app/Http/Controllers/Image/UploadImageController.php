@@ -35,6 +35,7 @@ class UploadImageController extends Controller
               $request->getParameter(),
               $request->getExtension(),
               $request->getHashFileName(),
+              $request->getType(),
           ));
 
         return response()->json([

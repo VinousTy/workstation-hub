@@ -34,6 +34,7 @@ class GeneratePreSignedUrlController extends Controller
           ->execute(new GeneratePreSignedUrlInput(
               $request->getParameter(),
               $request->getExtension(),
+              $request->getType(),
           ));
 
         return response()->json((new GeneratePreSignedUrlOutput(

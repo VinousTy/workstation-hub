@@ -14,8 +14,8 @@ trait MakeS3FilePath
      * @param  string  $hashFilePath
      * @return string
      */
-    private function makeS3FilePath(string $s3Path, string $id, string $hashFilePath): string
+    private function makeS3FilePath(string $s3Path, string $id, string $type, string $hashFilePath): string
     {
-        return "$s3Path/$id/$hashFilePath";
+        return "$s3Path/$type/$id/$hashFilePath";
     }
 }

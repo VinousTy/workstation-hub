@@ -34,7 +34,7 @@ class GeneratePreSignedUrlUseCase implements GeneratePreSignedUrlUseCaseInterfac
     {
         try {
           $hashFileName = $this->getHashFileName($input->getExtension());
-          $preSignedUrl = $this->generateUploadUrl($input->getId(), $hashFileName);
+          $preSignedUrl = $this->generateUploadUrl($input->getId(), $input->getType(), $hashFileName);
 
           return [
               'hash_file_name' => $hashFileName,
@@ -71,15 +71,16 @@ class GeneratePreSignedUrlUseCase implements GeneratePreSignedUrlUseCaseInterfac
      * @param  string  $hashFileName
      * @return string
      */
-    private function generateUploadUrl(string $id, string $hashFileName): string
+    private function generateUploadUrl(string $id, string $type, string $hashFileName): string
     {
         Log::info('generate s3 url', [
             'method' => __METHOD__,
             'id' => $id,
+            'type' => $type,
             'hash_file_name' => $hashFileName,
         ]);
 
-        $path = $this->makeS3FilePath(self::S3_PATH, $id, $hashFileName);
+        $path = $this->makeS3FilePath(self::S3_PATH, $id, $type, $hashFileName);
 
         return $this->s3Repository->generateUploadUrl(self::DISK_NAME, $path);
     }
