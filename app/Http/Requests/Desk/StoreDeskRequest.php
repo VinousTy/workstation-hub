@@ -27,7 +27,18 @@ class StoreDeskRequest extends FormRequest
     {
         return [
             'description' => ['nullable', 'string', 'max:1000'],
-            'category_name' => ['required', 'string'],
+            'category_name' => ['required', 'array'],
+            'categpoy_name.*' => ['string', 'required'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributes(): array
+    {
+        return [
+            'category_name' => __('category.name'),
         ];
     }
 
@@ -40,9 +51,9 @@ class StoreDeskRequest extends FormRequest
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getCategoryName(): string
+    public function getCategoryNames(): array
     {
         return $this->category_name;
     }

@@ -6,7 +6,7 @@ interface PROPS {
   type: string;
   row: number;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  errorMessage: never[];
+  errorMessage?: never[];
   placeHolderText: string;
 }
 
