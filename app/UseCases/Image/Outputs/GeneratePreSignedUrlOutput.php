@@ -7,12 +7,12 @@ namespace App\UseCases\Image\Outputs;
 class GeneratePreSignedUrlOutput
 {
     /**
-     * @param  string  $hashFileName
-     * @param  string  $preSignedUrl
+     * @param  array  $hashFileName
+     * @param  array  $preSignedUrl
      */
     public function __construct(
-        private readonly string $hashFileName,
-        private readonly string $preSignedUrl,
+        private readonly array $hashFileName,
+        private readonly array $preSignedUrl,
     ) {
     }
 

@@ -27,7 +27,8 @@ class GeneratePreSignedUrlRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'extension' => ['required', 'string', new MineType($this->getExtension())],
+            'extensions' => ['required', 'array', new MineType($this->getExtensions())],
+            'extensions.*' => ['required', 'string'],
             'type' => ['required', 'string', Rule::in(ImageType::toArray())],
         ];
     }
@@ -37,15 +38,15 @@ class GeneratePreSignedUrlRequest extends FormRequest
      */
     public function getParameter(): string
     {
-        return $this->route()->parameter('profile_id');
+        return $this->route()->parameter('parent_id');
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getExtension(): string
+    public function getExtensions(): array
     {
-        return $this->input('extension') ?? '';
+        return $this->input('extensions');
     }
 
     /**

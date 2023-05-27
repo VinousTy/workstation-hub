@@ -33,19 +33,28 @@ class GeneratePreSignedUrlUseCase implements GeneratePreSignedUrlUseCaseInterfac
     public function execute(GeneratePreSignedUrlInput $input): array
     {
         try {
-          $hashFileName = $this->getHashFileName($input->getExtension());
-          $preSignedUrl = $this->generateUploadUrl($input->getId(), $input->getType(), $hashFileName);
+          $extensions = $input->getExtensions();
+          $hashFileNames = [];
+          $preSignedUrls = [];
+
+          foreach ($extensions as $extension) {
+            $hashFileName = $this->getHashFileName($extension);
+            $preSignedUrl = $this->generateUploadUrl($input->getId(), $input->getType(), $hashFileName);
+
+            $hashFileNames[] = $hashFileName;
+            $preSignedUrls[] = $preSignedUrl;
+          }
 
           return [
-              'hash_file_name' => $hashFileName,
-              'pre_signed_url' => $preSignedUrl,
+              'hash_file_name' => $hashFileNames,
+              'pre_signed_url' => $preSignedUrls,
           ];
         } catch (S3Exception $e) {
           Log::error(__('exception.pre_signed_url.failed'), [
               'method' => __METHOD__,
               'error' => $e,
-              'profile_id' => $input->getId(),
-              'extension' => $input->getExtension(),
+              'parent_id' => $input->getId(),
+              'extension' => $input->getExtensions(),
           ]);
 
           throw new GenerateUrlException(__('exception.pre_signed_url.failed'));

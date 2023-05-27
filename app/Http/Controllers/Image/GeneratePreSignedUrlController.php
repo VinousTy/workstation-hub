@@ -33,7 +33,7 @@ class GeneratePreSignedUrlController extends Controller
        $preSignedResult = $this->generatePreSignedUrlUseCaseInterface
           ->execute(new GeneratePreSignedUrlInput(
               $request->getParameter(),
-              $request->getExtension(),
+              $request->getExtensions(),
               $request->getType(),
           ));
 
