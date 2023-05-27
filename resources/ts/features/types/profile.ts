@@ -4,7 +4,7 @@ export interface UPDATE_PROFILE_IMAGE_DATA {
   id: string;
   extension: string;
   hashFileName: string;
-  type: UPLOAD_FILE_TYPE
+  type: UPLOAD_FILE_TYPE;
 }
 
 export interface UPDATE_PROFILE_DATA {

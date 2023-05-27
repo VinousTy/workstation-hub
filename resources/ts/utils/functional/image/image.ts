@@ -5,26 +5,37 @@ import {
   UPLOAD_FILE,
 } from "../../types/ImageType";
 
-// 拡張子取得
-export const getExtension = (file: File | null): string => {
-  const fileNameArray = file?.name.split(".");
+type GeneratePreSignedUrlResponse = {
+  hash_file_name: string[];
+  pre_signed_url: string[];
+}
 
-  if (!fileNameArray || fileNameArray.length <= 1) {
-    return "";
+// 拡張子取得
+export const getExtension = (files: FileList | null): string[] => {
+  if (!files) {
+    return [];
   }
 
-  return fileNameArray.pop() ?? "";
+  const extensions = Array.from(files).map((file) => {
+    const fileNameArray = file.name.split(".");
+    if (fileNameArray.length <= 1) {
+      return "";
+    }
+    return fileNameArray.pop() || "";
+  });
+
+  return extensions;
 };
 
 // 署名付きURLを発行
 export const fetchGeneratePreSignedUrl = async (
   imageData: GENERATE_PRESIGNED_IMAGE_DATA
-) => {
+): Promise<GeneratePreSignedUrlResponse> => {
   try {
     const res = await axios.post(
-      `/api/profile/${imageData.id}/presigned-url/`,
+      `/api/image/${imageData.id}/presigned-url/`,
       {
-        extension: imageData.extension,
+        extensions: imageData.extension,
         type: imageData.type,
       },
       {
@@ -47,19 +58,30 @@ export const fetchGeneratePreSignedUrl = async (
     ) {
       return error.response.data.message;
     }
-    return "サーバーに接続できません";
+    throw new Error("サーバーに接続できません");
   }
 };
 
 // S3へアップロード
 export const uploadFileToS3 = async (uploadFile: UPLOAD_FILE) => {
   try {
-    const res = await axios.put(uploadFile.preSignedUrl, uploadFile.file, {
-      headers: {
-        "Content-Type": uploadFile.file.type,
-      },
+    const preSignedUrls = uploadFile.preSignedUrl;
+
+    const formDataArray = Array.from(uploadFile.files).map((file, index) => {
+      return {
+        file: file,
+        preSignedUrl: preSignedUrls[index],
+      };
     });
-    return res.data;
+
+    const res = await formDataArray.map(({ file, preSignedUrl }) => {
+      return axios.put(preSignedUrl, file, {
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+    });
+    return (await res[0]).data;
   } catch (error) {
     if (
       axios.isAxiosError(error) &&
