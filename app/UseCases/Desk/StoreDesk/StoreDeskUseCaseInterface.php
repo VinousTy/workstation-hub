@@ -8,5 +8,11 @@ use App\UseCases\Desk\Inputs\StoreDeskInput;
 
 interface StoreDeskUseCaseInterface
 {
-    public function execute(StoreDeskInput $input);
+    /**
+     * デスク情報を登録
+     *
+     * @param  StoreDeskInput  $input
+     * @return void
+     */
+    public function execute(StoreDeskInput $input): void;
 }

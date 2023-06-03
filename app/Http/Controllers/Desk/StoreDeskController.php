@@ -18,7 +18,6 @@ class StoreDeskController extends Controller
      */
     public function __construct(private readonly StoreDeskUseCaseInterface $storeDeskUseCaseInterface)
     {
-
     }
 
     /**
@@ -30,10 +29,15 @@ class StoreDeskController extends Controller
     public function __invoke(StoreDeskRequest $request): JsonResponse
     {
         $this->storeDeskUseCaseInterface->execute(new StoreDeskInput(
+          $request->getFiles(),
+          $request->getExtensions(),
+          $request->getType(),
           $request->getDescription(),
           $request->getCategoryNames(),
         ));
 
-        return response()->json(status: Response::HTTP_NO_CONTENT);
+        return response()->json([
+            'message' => __('message.success.desk.store'),
+        ], status: Response::HTTP_OK);
     }
 }

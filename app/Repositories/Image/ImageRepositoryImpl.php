@@ -6,6 +6,7 @@ namespace App\Repositories\Image;
 
 use App\Domain\Entities\Profile\ProfileEntity;
 use App\Domain\Entities\Profile\ProfileFactory;
+use App\Models\DeskImage;
 use App\Models\Profile;
 use Illuminate\Support\Facades\DB;
 
@@ -25,5 +26,18 @@ class ImageRepositoryImpl implements ImageRepository
         });
 
         return ProfileFactory::createProfile($profile);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function uploadDeskImageFile(string $deskId, string $fileName, string $extension, string $filePath): void
+    {
+        DeskImage::create([
+            'desk_id' => $deskId,
+            'file_name' => $fileName,
+            'extension' => $extension,
+            'file_path' => $filePath,
+        ]);
     }
 }
