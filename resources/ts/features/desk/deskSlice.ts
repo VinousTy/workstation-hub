@@ -28,6 +28,7 @@ const initialState: DESK_INITIALSTATE = {
       images: [],
     },
   ],
+  message: "",
   errors: [] as unknown,
 };
 
@@ -51,9 +52,21 @@ export const registDesk = createAsyncThunk(
   "desk/post",
   async (postData: POST_DESK_DATA, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/desk", {
-        category_name: postData.category,
-        description: postData.description,
+      const formData = new FormData();
+      postData.files.forEach((file, index) => {
+        formData.append("files", file);
+        formData.append("extensions", postData.extensions[index]);
+      });
+      postData.categories.forEach((category) => {
+        formData.append("category_name[]", category);
+      });
+      formData.append("type", postData.type);
+      formData.append("description", postData.description);
+
+      const res = await axios.post("/api/desk", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
       return res.data;
     } catch (error) {
@@ -77,7 +90,7 @@ export const deskSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(registDesk.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.message = action.payload.message;
     });
     builder.addCase(registDesk.rejected, (state, action) => {
       state.errors = action.payload;
