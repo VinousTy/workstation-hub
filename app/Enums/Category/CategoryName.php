@@ -21,7 +21,7 @@ use MyCLabs\Enum\Enum;
 class CategoryName extends Enum
 {
     // モニター
-    private const MONITOR = 'mointor';
+    private const MONITOR = 'monitor';
 
     // コンピューター
     private const COMPUTER = 'computer';

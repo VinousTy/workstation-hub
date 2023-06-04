@@ -8,11 +8,13 @@ class GeneratePreSignedUrlInput
 {
     /**
      * @param  string  $id
-     * @param  string  $extension
+     * @param  array  $extensions
+     * @param  string  $type
      */
     public function __construct(
       private readonly string $id,
-      private readonly string $extension,
+      private readonly array $extensions,
+      private readonly string $type,
     ) {
     }
 
@@ -24,12 +26,17 @@ class GeneratePreSignedUrlInput
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getExtension(): string
+    public function getType(): string
     {
-        return $this->extension;
+        return $this->type;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtensions(): array
+    {
+        return $this->extensions;
     }
 
     /**
@@ -39,7 +46,8 @@ class GeneratePreSignedUrlInput
     {
         return [
             'id' => $this->id,
-            'extension' => $this->extension,
+            'extension' => $this->extensions,
+            'type' => $this->type,
         ];
     }
 }

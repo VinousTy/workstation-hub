@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Desk;
 
+use App\Enums\Image\ImageType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDeskRequest extends FormRequest
 {
@@ -26,6 +28,10 @@ class StoreDeskRequest extends FormRequest
     public function rules()
     {
         return [
+            'files' => ['required', 'array'],
+            'extensions' => ['required', 'array'],
+            'extensions.*' => ['required', 'string'],
+            'type' => ['required', Rule::in(ImageType::toArray())],
             'description' => ['nullable', 'string', 'max:1000'],
             'category_name' => ['required', 'array'],
             'categpoy_name.*' => ['string', 'required'],
@@ -38,8 +44,34 @@ class StoreDeskRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'files' => __('desk_image.files'),
+            'description' => __('desk.description'),
             'category_name' => __('category.name'),
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFiles(): array
+    {
+        return $this->file('files');
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtensions(): array
+    {
+        return $this->input('extensions');
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->input('type');
     }
 
     /**

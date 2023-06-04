@@ -30,6 +30,7 @@ import {
   setLoading,
 } from "../../../features/common/commonSlice";
 import Loading from "../../components/loading/Loading";
+import { imageType } from "../../../utils/enums/image/imageType";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
@@ -80,27 +81,29 @@ const ProfileSettings = () => {
   );
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
+    const files = e.target.files && e.target.files;
 
-    if (!file) {
+    if (!files) {
       return;
     }
 
-    const extension = getExtension(file);
+    const extensions = getExtension(files);
 
     await fetchGeneratePreSignedUrl({
       id: profileData.profile.id,
-      extension: extension,
+      extension: extensions,
+      type: imageType.PROFILE,
     }).then((generateResponse) => {
       uploadFileToS3({
         preSignedUrl: generateResponse.pre_signed_url,
-        file: file,
+        files: files,
       }).then((response) => {
         dispatch(
           updateProfileImage({
             id: profileData.profile.id,
-            extension: extension,
-            hashFileName: generateResponse.hash_file_name,
+            extension: extensions[0],
+            hashFileName: generateResponse.hash_file_name[0],
+            type: imageType.PROFILE,
           })
         );
       });

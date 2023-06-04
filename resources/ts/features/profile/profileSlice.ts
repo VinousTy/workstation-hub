@@ -49,6 +49,7 @@ export const updateProfileImage = createAsyncThunk(
         {
           extension: updateProfileImageData.extension,
           hash_file_name: updateProfileImageData.hashFileName,
+          type: updateProfileImageData.type,
         },
         {
           headers: {
