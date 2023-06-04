@@ -27,7 +27,7 @@ class UploadImageUseCase implements UploadImageUseCaseInterface
      */
     public function execute(UploadImageInput $input): ProfileEntity
     {
-        $filePath = $this->makeS3FilePath(self::S3_PATH, $input->getId(), $input->getHashFileName());
+        $filePath = $this->makeS3FilePath(self::S3_PATH, $input->getId(), $input->getType(), $input->getHashFileName());
 
         return $this->imageRepository->uploadImageFile($input->getId(), $filePath);
     }

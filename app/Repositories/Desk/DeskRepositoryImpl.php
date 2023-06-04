@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Repositories\Desk;
 
 use App\Domain\Entities\Category\CategoryFactory;
+use App\Domain\Entities\Desk\DeskEntity;
 use App\Domain\Entities\Desk\DeskFactory;
 use App\Domain\Entities\DeskImage\DeskImageFactory;
 use App\Domain\Entities\Profile\ProfileFactory;
 use App\Domain\Entities\User\UserFactory;
+use App\Domain\ValueObjects\Desk\DeskDescription;
+use App\Domain\ValueObjects\User\UserId;
 use App\Models\Desk;
 
 class DeskRepositoryImpl implements DeskRepository
@@ -58,5 +61,18 @@ class DeskRepositoryImpl implements DeskRepository
         }
 
         return $entities;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function storeDesk(UserId $userId, DeskDescription $description): DeskEntity
+    {
+        $desk = Desk::create([
+            'user_id' => $userId->getValue(),
+            'description' => $description->getValue(),
+        ]);
+
+        return DeskFactory::createDesk($desk);
     }
 }

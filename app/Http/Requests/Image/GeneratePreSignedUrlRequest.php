@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Image;
 
+use App\Enums\Image\ImageType;
 use App\Rules\MineType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GeneratePreSignedUrlRequest extends FormRequest
 {
@@ -25,7 +27,9 @@ class GeneratePreSignedUrlRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'extension' => ['required', 'string', new MineType($this->getExtension())],
+            'extensions' => ['required', 'array', new MineType($this->getExtensions())],
+            'extensions.*' => ['required', 'string'],
+            'type' => ['required', 'string', Rule::in(ImageType::toArray())],
         ];
     }
 
@@ -34,14 +38,22 @@ class GeneratePreSignedUrlRequest extends FormRequest
      */
     public function getParameter(): string
     {
-        return $this->route()->parameter('profile_id');
+        return $this->route()->parameter('parent_id');
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtensions(): array
+    {
+        return $this->input('extensions');
     }
 
     /**
      * @return string
      */
-    public function getExtension(): string
+    public function getType(): string
     {
-        return $this->input('extension') ?? '';
+        return $this->input('type');
     }
 }

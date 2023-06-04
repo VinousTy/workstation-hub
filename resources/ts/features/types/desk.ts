@@ -20,4 +20,14 @@ export interface DESK_INITIALSTATE {
     ];
     images: [];
   }[];
+  message: string;
+  errors: [] | unknown;
+}
+
+export interface POST_DESK_DATA {
+  extensions: string[];
+  files: File[];
+  type: string;
+  categories: string[];
+  description: string;
 }

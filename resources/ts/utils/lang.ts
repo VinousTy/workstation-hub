@@ -6,4 +6,6 @@ export const inputPlaceholder = {
   select: "選択してください",
   account: "共有したいSNSアカウントを入力してください",
   introduction: "自己紹介文を入力してください",
+  category: "追加したいカテゴリを入力してください",
+  description: "投稿への説明を入力してください",
 } as const;

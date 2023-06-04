@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories\Image;
 
+use App\Exceptions\Image\UploadS3Exception;
+use Aws\S3\Exception\S3Exception;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,5 +41,26 @@ class S3RepositoryImpl implements S3Repository
         ]);
 
         return (string) $generateUrl;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function uplloadS3(string $disk, string $filePath, UploadedFile $file): void
+    {
+      try {
+        Storage::disk($disk)->putFile($filePath, $file);
+      } catch (S3Exception $e) {
+        Log::error(__('exception.image.desk.failed'), [
+            'method' => __METHOD__,
+            'file_path' => $filePath,
+            'error_message' => $e->getMessage(),
+            'exception_file' => $e->getFile(),
+            'error_line' => $e->getLine(),
+            'error_trace' => $e->getTrace(),
+        ]);
+
+        throw new UploadS3Exception(__('message.error.image'));
+      }
     }
 }

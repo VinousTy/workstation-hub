@@ -16,4 +16,13 @@ interface ImageRepository
      * @return ProfileEntity
      */
     public function uploadImageFile(string $id, string $filePath): ProfileEntity;
+
+    /**
+     * デスク画像を保存
+     *
+     * @param  string  $deskId
+     * @param  string  $filePath
+     * @return void
+     */
+    public function uploadDeskImageFile(string $deskId, string $fileName, string $extension, string $filePath): void;
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Image;
 
+use App\Enums\Image\ImageType;
 use App\Rules\MineType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UploadImageRequest extends FormRequest
 {
@@ -29,6 +31,7 @@ class UploadImageRequest extends FormRequest
         return [
             'extension' => ['required', 'string', new MineType($this->getExtension())],
             'hash_file_name' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', Rule::in(ImageType::toArray())],
         ];
     }
 
@@ -54,5 +57,13 @@ class UploadImageRequest extends FormRequest
     public function getHashFileName(): string
     {
         return $this->input('hash_file_name');
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->input('type');
     }
 }

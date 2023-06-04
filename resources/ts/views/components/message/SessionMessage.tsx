@@ -11,6 +11,10 @@ import {
   selectMessage as selectProfileMessage,
 } from "../../../features/profile/profileSlice";
 import { useSelector } from "react-redux";
+import {
+  closeDeskMessage,
+  selectDeskMessage,
+} from "../../../features/desk/deskSlice";
 
 interface PROPS {
   message: string;
@@ -22,10 +26,21 @@ const SessionMessage: React.FC<PROPS> = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const userMessage = useSelector(selectMessage);
   const profileMessage = useSelector(selectProfileMessage);
+  const deskMessage = useSelector(selectDeskMessage);
   const presistKey = persistConfig.key;
 
-  const message =
-    props.class === MessageClass.user ? userMessage : profileMessage;
+  const displayMessage = useCallback(() => {
+    switch (props.class) {
+      case MessageClass.user:
+        return userMessage;
+      case MessageClass.profile:
+        return profileMessage;
+      case MessageClass.desk:
+        return deskMessage;
+      default:
+        return "エラーが発生しました。";
+    }
+  }, []);
 
   const bgColor =
     props.type === SessionType.danger ? "bg-red-500" : "bg-green-500";
@@ -37,6 +52,15 @@ const SessionMessage: React.FC<PROPS> = (props) => {
         sessionStorage.removeItem(presistKey);
       case MessageClass.profile:
         dispatch(closeProfileMessage());
+        sessionStorage.removeItem(presistKey);
+      case MessageClass.desk:
+        console.log(sessionStorage);
+        dispatch(closeDeskMessage());
+        sessionStorage.removeItem(presistKey);
+      default:
+        dispatch(closeUserMessage());
+        dispatch(closeProfileMessage());
+        dispatch(closeDeskMessage());
         sessionStorage.removeItem(presistKey);
     }
   }, []);
@@ -50,16 +74,24 @@ const SessionMessage: React.FC<PROPS> = (props) => {
         case MessageClass.profile:
           dispatch(closeProfileMessage());
           sessionStorage.removeItem(presistKey);
+        case MessageClass.desk:
+          dispatch(closeDeskMessage());
+          sessionStorage.removeItem(presistKey);
+        default:
+          dispatch(closeUserMessage());
+          dispatch(closeProfileMessage());
+          dispatch(closeDeskMessage());
+          sessionStorage.removeItem(presistKey);
       }
     }, 5000);
 
     return () => clearTimeout(timeoutId);
-  }, [userMessage, profileMessage]);
+  }, [userMessage, profileMessage, deskMessage]);
 
   return (
     <div className={`${bgColor} text-white py-3 px-4`}>
       <div className="flex justify-between items-center">
-        <p className="text-sm font-medium">{message}</p>
+        <p className="text-sm font-medium">{displayMessage()}</p>
         <button onClick={() => handleCloseMessage()}>
           <svg
             className="w-4 h-4 fill-current"
