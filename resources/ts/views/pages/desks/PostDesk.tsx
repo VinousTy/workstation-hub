@@ -6,10 +6,16 @@ import TextArea from "../../components/form/TextArea";
 import { changeFile } from "../../../utils/functional/image/changeFile";
 import { AppDispatch } from "../../../features/store";
 import { useDispatch } from "react-redux";
-import { registDesk } from "../../../features/desk/deskSlice";
+import {
+  registDesk,
+  selectDeskMessage,
+} from "../../../features/desk/deskSlice";
 import { getExtension } from "../../../utils/functional/image/image";
 import { imageType } from "../../../utils/enums/image/imageType";
 import { useNavigate } from "react-router-dom";
+import SessionMessage from "../../components/message/SessionMessage";
+import { MessageClass, SessionType } from "../../../utils/messageType";
+import { useSelector } from "react-redux";
 
 const postDesk = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,6 +28,7 @@ const postDesk = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [description, setDescription] = useState("");
   const [addCategoryErrorMessage, setAddCategoryErrorMessage] = useState("");
+  const message = useSelector(selectDeskMessage);
   const [errors, setErrors] = useState({
     files: [],
     extensions: [],
@@ -168,6 +175,15 @@ const postDesk = () => {
   return (
     <div className="bg-application-all min-h-screen">
       <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {message !== "" && message !== undefined && (
+          <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <SessionMessage
+              message={message}
+              type={SessionType.danger}
+              class={MessageClass.desk}
+            />
+          </div>
+        )}
         <h1 className="text-2xl font-semibold text-gray-300 mb-8">
           デスク投稿
         </h1>

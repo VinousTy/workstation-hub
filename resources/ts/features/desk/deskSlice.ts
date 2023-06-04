@@ -54,8 +54,8 @@ export const registDesk = createAsyncThunk(
     try {
       const formData = new FormData();
       postData.files.forEach((file, index) => {
-        formData.append("files", file);
-        formData.append("extensions", postData.extensions[index]);
+        formData.append("files[]", file);
+        formData.append("extensions[]", postData.extensions[index]);
       });
       postData.categories.forEach((category) => {
         formData.append("category_name[]", category);
@@ -75,6 +75,11 @@ export const registDesk = createAsyncThunk(
         error.response?.status === StatusCode.VALIDATION
       ) {
         return rejectWithValue(error.response.data.errors);
+      } else if (
+        axios.isAxiosError(error) &&
+        error.response?.status === StatusCode.SERVER_ERROR
+      ) {
+        return rejectWithValue(error.response.data);
       }
       return rejectWithValue("サーバーに接続できません");
     }
@@ -84,7 +89,11 @@ export const registDesk = createAsyncThunk(
 export const deskSlice = createSlice({
   name: "desk",
   initialState,
-  reducers: {},
+  reducers: {
+    closeDeskMessage(state) {
+      state.message = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getDeskList.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -92,12 +101,16 @@ export const deskSlice = createSlice({
     builder.addCase(registDesk.fulfilled, (state, action) => {
       state.message = action.payload.message;
     });
-    builder.addCase(registDesk.rejected, (state, action) => {
+    builder.addCase(registDesk.rejected, (state, action: any) => {
       state.errors = action.payload;
+      state.message = action.payload.message;
     });
   },
 });
 
+export const { closeDeskMessage } = deskSlice.actions;
+
 export const selectDeskList = (state: RootState) => state.desk.data;
+export const selectDeskMessage = (state: RootState) => state.desk.message;
 
 export default deskSlice.reducer;
