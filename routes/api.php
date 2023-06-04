@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UpdateEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Desk\GetDeskListController;
+use App\Http\Controllers\Desk\StoreDeskController;
 use App\Http\Controllers\Image\GeneratePreSignedUrlController;
 use App\Http\Controllers\Image\UploadImageController;
 use App\Http\Controllers\Profile\GetAuthUserProfileController;
@@ -38,13 +39,19 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', GetAuthUserProfileController::class)->name('index');
         Route::prefix('{profile_id}')->group(function () {
-          Route::post('/presigned-url', GeneratePreSignedUrlController::class)->name('upload');
           Route::post('/upload', UploadImageController::class)->name('store');
           Route::put('/update', UpdateAuthUserProfileController::class)->name('update');
+        });
+    });
+    // images
+    Route::prefix('/image')->name('image.')->group(function () {
+        Route::prefix('{parent_id}')->group(function () {
+          Route::post('/presigned-url', GeneratePreSignedUrlController::class)->name('upload');
         });
     });
     // desks
     Route::prefix('/desk')->name('desk.')->group(function () {
         Route::get('/', GetDeskListController::class)->name('index');
+        Route::post('/', StoreDeskController::class)->name('store');
     });
 });

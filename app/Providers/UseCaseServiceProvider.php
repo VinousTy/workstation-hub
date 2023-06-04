@@ -28,6 +28,7 @@ class UseCaseServiceProvider extends ServiceProvider
         ],
         'Desk' => [
             'GetDeskList',
+            'StoreDesk',
         ],
     ];
 

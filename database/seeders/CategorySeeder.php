@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\Category\CategoryName;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::factory()->count(10)->create();
+        Category::factory()->count(count(CategoryName::getCategoryName()))->create();
     }
 }

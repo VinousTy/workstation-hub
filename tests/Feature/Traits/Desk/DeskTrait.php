@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Traits\Desk;
 
+use App\Enums\Category\CategoryName;
 use App\Models\Category;
 use App\Models\Desk;
 use App\Models\DeskImage;
@@ -13,14 +14,14 @@ use Illuminate\Database\Eloquent\Collection;
 
 trait DeskTrait
 {
-  public function setupUseDeskData(Collection $uses, int $count): Collection
+  public function setupUseDeskData(Collection $uses, int $count = 1): Collection
   {
     return $uses->each(function (User $user) use ($count) {
         Profile::factory()->create(['user_id' => $user->id]);
         $desks = Desk::factory()->count($count)->create([
             'user_id' => $user->id,
         ]);
-        $categories = Category::factory()->count($count)->create();
+        $categories = Category::factory()->count(count(CategoryName::getCategoryName()))->create();
 
         $desks->each(function (Desk $desk) use ($categories) {
             $desk->categories()->attach($categories->random());

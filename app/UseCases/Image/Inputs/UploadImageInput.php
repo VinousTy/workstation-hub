@@ -10,11 +10,13 @@ class UploadImageInput
      * @param  string  $id
      * @param  string  $extension
      * @param  string  $hashFileName
+     * @param  string  $type
      */
     public function __construct(
       private readonly string $id,
       private readonly string $extension,
       private readonly string $hashFileName,
+      private readonly string $type,
     ) {
     }
 
@@ -40,5 +42,13 @@ class UploadImageInput
     public function getHashFileName(): string
     {
         return $this->hashFileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
     }
 }

@@ -9,18 +9,18 @@ use Illuminate\Contracts\Validation\Rule;
 class MineType implements Rule
 {
     /**
-     * @var string
+     * @var array|string
      */
-    private string $extension;
+    private array|string $extensions;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(string $extension)
+    public function __construct(array|string $extensions)
     {
-        $this->extension = $extension;
+        $this->extensions = $extensions;
     }
 
     /**
@@ -32,7 +32,17 @@ class MineType implements Rule
      */
     public function passes($attribute, $value)
     {
-        return in_array($this->extension, ['jpg', 'jpeg', 'png']);
+        if (is_array($value)) {
+          foreach ($value as $extension) {
+            if (! in_array($extension, ['jpg', 'jpeg', 'png'])) {
+              return false;
+            }
+          }
+
+          return true;
+        } else {
+          return in_array($value, ['jpg', 'jpeg', 'png']);
+        }
     }
 
     /**

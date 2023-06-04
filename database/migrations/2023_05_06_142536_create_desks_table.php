@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('desks', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignUlid('user_id')->comment(__('desk.user_id'))->constrained();
-            $table->string('description', 1000)->comment(__('desk.description'));
+            $table->string('description', 1000)->comment(__('desk.description'))->nullable();
             $table->timestamps();
         });
     }

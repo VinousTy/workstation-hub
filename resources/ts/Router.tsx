@@ -15,6 +15,7 @@ import PasswordSettings from "./views/pages/settings/PasswordSettings";
 import UserNameSettings from "./views/pages/settings/UserNameSettings";
 import ProfileSettings from "./views/pages/settings/ProfileSettings";
 import TopPage from "./views/pages/top/TopPage";
+import PostDesk from "./views/pages/desks/PostDesk";
 
 const Router = () => {
   return (
@@ -41,6 +42,7 @@ const Router = () => {
           path="/reset-password/compalate"
           element={<ResetPasswordComplate />}
         />
+        <Route path="/post" element={<PostDesk />} />
         {/* 設定ページ */}
         <Route path="/settings/account" element={<UserAccountSetting />} />
         <Route path="/settings/name" element={<UserNameSettings />} />
