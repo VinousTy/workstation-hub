@@ -6,6 +6,7 @@ namespace App\UseCases\Desk\StoreDesk;
 
 use App\Domain\ValueObjects\Desk\DeskDescription;
 use App\Domain\ValueObjects\User\UserId;
+use App\Exceptions\Desk\StoreDeskException;
 use App\Models\Desk;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Desk\DeskRepository;
@@ -112,6 +113,8 @@ class StoreDeskUseCase implements StoreDeskUseCaseInterface
               'line' => $e->getLine(),
               'trace' => $e->getTrace(),
           ]);
+
+          throw new StoreDeskException(__('message.error.desk.store'));
         }
     }
 

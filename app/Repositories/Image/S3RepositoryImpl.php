@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Image;
 
+use App\Exceptions\Image\UploadS3Exception;
 use Aws\S3\Exception\S3Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
@@ -58,6 +59,8 @@ class S3RepositoryImpl implements S3Repository
             'error_line' => $e->getLine(),
             'error_trace' => $e->getTrace(),
         ]);
+
+        throw new UploadS3Exception(__('message.error.image'));
       }
     }
 }
