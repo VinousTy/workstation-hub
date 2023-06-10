@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class RedirectIfAuthenticated
 {
     /**
+     * @var string
+     */
+    private const GUARD_USER = 'web';
+
+    /**
+     * @var string
+     */
+    private const GUARD_ADMIN = 'admin';
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
@@ -18,12 +28,12 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        $guards = empty($guards) ? [null] : $guards;
+        if (Auth::guard(self::GUARD_USER)->check()) {
+            return redirect(RouteServiceProvider::HOME);
+        }
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
+        if (Auth::guard(self::GUARD_ADMIN)->check()) {
+          return redirect(RouteServiceProvider::ADMIN_HOME);
         }
 
         return $next($request);
