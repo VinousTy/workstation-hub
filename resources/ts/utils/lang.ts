@@ -9,3 +9,8 @@ export const inputPlaceholder = {
   category: "追加したいカテゴリを入力してください",
   description: "投稿への説明を入力してください",
 } as const;
+
+export const AdminInputPlaceholder = {
+  email: "メールアドレスを入力してください",
+  password: "パスワードを入力してください",
+} as const;
