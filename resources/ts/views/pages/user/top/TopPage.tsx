@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
-import { AppDispatch } from "../../../features/store";
+import { AppDispatch } from "../../../../features/store";
 import { useDispatch } from "react-redux";
-import { getDeskList, selectDeskList } from "../../../features/desk/deskSlice";
+import {
+  getDeskList,
+  selectDeskList,
+} from "../../../../features/user/desk/deskSlice";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
-import { settings } from "../../../lib/reactSlick/settings";
-import topImage from "../../../assets/top/home.jpg";
-import DeskCard from "../../components/card/DeskCard";
+import { settings } from "../../../../lib/reactSlick/settings";
+import topImage from "../../../../assets/top/home.jpg";
+import DeskCard from "../../../components/card/DeskCard";
 
 const TopPage = () => {
   const dispatch: AppDispatch = useDispatch();

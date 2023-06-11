@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SettingsItem from "../../components/settings/SettingsItem";
-import InputForm from "../../components/form/InputForm";
-import { inputPlaceholder } from "../../../utils/lang";
-import TextArea from "../../components/form/TextArea";
-import SelectBox from "../../components/form/SelectBox";
-import { profileHeightSelect } from "../../../utils/enums/profile/profileHeight";
-import { profileWeightSelect } from "../../../utils/enums/profile/profileWeight";
-import { AppDispatch } from "../../../features/store";
+import SettingsItem from "../../../components/settings/SettingsItem";
+import InputForm from "../../../components/form/InputForm";
+import { inputPlaceholder } from "../../../../utils/lang";
+import TextArea from "../../../components/form/TextArea";
+import SelectBox from "../../../components/form/SelectBox";
+import { profileHeightSelect } from "../../../../utils/enums/profile/profileHeight";
+import { profileWeightSelect } from "../../../../utils/enums/profile/profileWeight";
+import { AppDispatch } from "../../../../features/store";
 import { useDispatch } from "react-redux";
 import {
   getProfile,
@@ -15,22 +15,22 @@ import {
   selectProfile,
   updateAuthUserProfile,
   updateProfileImage,
-} from "../../../features/profile/profileSlice";
+} from "../../../../features/user/profile/profileSlice";
 import { useSelector } from "react-redux";
-import SubmitButton from "../../components/button/SubmitButton";
-import SessionMessage from "../../components/message/SessionMessage";
-import { MessageClass, SessionType } from "../../../utils/messageType";
+import SubmitButton from "../../../components/button/SubmitButton";
+import SessionMessage from "../../../components/message/SessionMessage";
+import { MessageClass, SessionType } from "../../../../utils/messageType";
 import {
   fetchGeneratePreSignedUrl,
   getExtension,
   uploadFileToS3,
-} from "../../../utils/functional/image/image";
+} from "../../../../utils/functional/image/image";
 import {
   selectIsLoading,
   setLoading,
-} from "../../../features/common/commonSlice";
-import Loading from "../../components/loading/Loading";
-import { imageType } from "../../../utils/enums/image/imageType";
+} from "../../../../features/common/commonSlice";
+import Loading from "../../../components/loading/Loading";
+import { imageType } from "../../../../utils/enums/image/imageType";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();

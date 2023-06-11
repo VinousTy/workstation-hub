@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectEmail } from "../../../features/auth/authSlice";
-import loginImage from "../../../assets/auth/login-bro.jpg";
+import { selectEmail } from "../../../../features/user/auth/authSlice";
+import loginImage from "../../../../assets/auth/login-bro.jpg";
 
 const VerifyEmail = () => {
   const email = useSelector(selectEmail);

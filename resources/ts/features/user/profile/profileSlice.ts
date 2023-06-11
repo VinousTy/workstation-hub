@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import {
   UPDATE_PROFILE_DATA,
   UPDATE_PROFILE_IMAGE_DATA,
 } from "../types/profile";
-import { StatusCode } from "../../utils/statusCode";
+import { StatusCode } from "../../../utils/statusCode";
 
 const initialState = {
   profile: {

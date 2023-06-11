@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import axios from "axios";
 import { DESK_INITIALSTATE, POST_DESK_DATA } from "../types/desk";
-import { StatusCode } from "../../utils/statusCode";
+import { StatusCode } from "../../../utils/statusCode";
 
 const initialState: DESK_INITIALSTATE = {
   data: [

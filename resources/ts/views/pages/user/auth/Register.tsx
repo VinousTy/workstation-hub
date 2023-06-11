@@ -1,26 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectMessage, userLogin } from "../../../features/auth/authSlice";
-import { AppDispatch, persistConfig } from "../../../features/store";
-import SubmitButton from "../../components/button/SubmitButton";
-import InputForm from "../../components/form/InputForm";
-import loginImage from "../../../assets/auth/login-bro.jpg";
-import SessionMessage from "../../components/message/SessionMessage";
-import { MessageClass, SessionType } from "../../../utils/messageType";
-import { inputPlaceholder } from "../../../utils/lang";
+import { userRegister } from "../../../../features/user/auth/authSlice";
+import { AppDispatch } from "../../../../features/store";
+import SubmitButton from "../../../components/button/SubmitButton";
+import InputForm from "../../../components/form/InputForm";
+import loginImage from "../../../../assets/auth/login-bro.jpg";
+import { inputPlaceholder } from "../../../../utils/lang";
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [errors, setErrors] = useState({
     name: [],
     email: [],
     password: [],
   });
   const dispatch: AppDispatch = useDispatch();
-  const message = useSelector(selectMessage);
   const navigate = useNavigate();
 
   const changedEmail = useCallback(
@@ -37,18 +34,26 @@ const Login = () => {
     [setPassword]
   );
 
+  const changedPasswordConfirm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPasswordConfirm(e.target.value);
+    },
+    [setPasswordConfirm]
+  );
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     await dispatch(
-      userLogin({
+      userRegister({
         email: email,
         password: password,
+        passwordConfirmation: passwordConfirm,
       })
     )
       .unwrap()
       .then((res) => {
-        navigate("/mypage");
+        navigate("/verify/email");
       })
       .catch((error) => {
         setErrors(error);
@@ -60,23 +65,14 @@ const Login = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-br from-blue-500 to-indigo-500 before:bg-opacity-black before:bg-inherit before:backdrop-filter before:backdrop-blur-lg before:absolute before:-top-5 before:-left-5 before:-right-5 before:-bottom-5 before:z-[-1]"
       style={{
         backgroundImage: ` linear-gradient(
-        rgba(32, 32, 32, 0.6),
-        rgba(32, 32, 32, 0.6)
-      ), url(${loginImage})`,
+      rgba(32, 32, 32, 0.6),
+      rgba(32, 32, 32, 0.6)
+    ), url(${loginImage})`,
       }}
     >
-      {message !== "" && (
-        <div className="absolute mx-auto md:top-20 max-w-md">
-          <SessionMessage
-            message={message}
-            type={SessionType.success}
-            class={MessageClass.user}
-          />
-        </div>
-      )}
       <div className="bg-opacity-black p-8 rounded shadow-md max-w-md w-full">
         <h1 className="text-2xl text-gray-300 font-bold mb-6 text-center">
-          ログイン
+          ユーザー登録
         </h1>
         <form method="post" onSubmit={handleSubmit}>
           <InputForm
@@ -95,29 +91,20 @@ const Login = () => {
             errorMessage={errors.password}
             placeHolderText={inputPlaceholder.password}
           />
+          <InputForm
+            label="パスワード（確認用）"
+            value={passwordConfirm}
+            type="password"
+            onChange={changedPasswordConfirm}
+            errorMessage={errors.password}
+            placeHolderText={inputPlaceholder.passwordConfirm}
+          />
           {errors.name && (
             <p className="text-red-500 text-sm font-bold">{errors?.name[0]}</p>
           )}
-          <div className="flex flex-col items-center">
-            <div className="flex items-center mb-4">
-              <input
-                type="checkbox"
-                name="remember"
-                id="remember"
-                className="mr-2"
-              />
-              <label htmlFor="remember" className="text-gray-400 font-bold">
-                ログイン情報を保存する
-              </label>
-            </div>
-            <p
-              className="text-blue-500 font-bold hover:text-blue-700 mb-4 cursor-pointer"
-              onClick={() => navigate("/forgot/password")}
-            >
-              パスワードをお忘れですか？
-            </p>
+          <div className="pt-6">
+            <SubmitButton label="新規登録" />
           </div>
-          <SubmitButton label="ログイン" />
           <div className="mt-4 text-center flex items-center">
             <hr className="flex-1 border-t-2 border-gray-300" />
             <span className="text-gray-500 font-bold mx-2">または</span>
@@ -129,19 +116,19 @@ const Login = () => {
               className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             >
               <i className="fab fa-google mr-2"></i>
-              Googleでログイン
+              Googleで登録
             </button>
           </div>
         </form>
         <p
           className="text-gray-400 text-center mt-8 cursor-pointer hover:text-gray-200 transition"
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/login")}
         >
-          新規アカウントを作成する
+          ログインはこちらから
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

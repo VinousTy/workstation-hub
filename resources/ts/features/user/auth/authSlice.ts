@@ -9,8 +9,8 @@ import {
   USER_INITIALSTATE,
 } from "../types/auth";
 import axios from "axios";
-import { RootState } from "../store";
-import { StatusCode } from "../../utils/statusCode";
+import { RootState } from "../../store";
+import { StatusCode } from "../../../utils/statusCode";
 
 const initialState: USER_INITIALSTATE = {
   isLogin: false,

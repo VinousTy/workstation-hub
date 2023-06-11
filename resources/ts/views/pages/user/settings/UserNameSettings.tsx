@@ -1,40 +1,46 @@
 import React, { useCallback, useEffect, useState } from "react";
-import InputForm from "../../components/form/InputForm";
-import SubmitButton from "../../components/button/SubmitButton";
-import loginImage from "../../../assets/auth/login-bro.jpg";
-import SessionMessage from "../../components/message/SessionMessage";
-import { MessageClass, SessionType } from "../../../utils/messageType";
-import { AppDispatch, persistConfig } from "../../../features/store";
+import loginImage from "../../../../assets/auth/login-bro.jpg";
+import {
+  changeUserName,
+  selectMessage,
+} from "../../../../features/user/auth/authSlice";
+import { AppDispatch, persistConfig } from "../../../../features/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { changeEmail, selectMessage } from "../../../features/auth/authSlice";
-import { inputPlaceholder } from "../../../utils/lang";
+import SessionMessage from "../../../components/message/SessionMessage";
+import { MessageClass, SessionType } from "../../../../utils/messageType";
+import InputForm from "../../../components/form/InputForm";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { inputPlaceholder } from "../../../../utils/lang";
 
-const EmailSettings = () => {
-  const [email, setEmail] = useState("");
+const UserNameSettings = () => {
+  const [userName, setUserName] = useState("");
   const [errors, setErrors] = useState({
-    email: [],
+    userName: [],
   });
   const dispatch: AppDispatch = useDispatch();
   const message = useSelector(selectMessage);
   const presistKey = persistConfig.key;
 
-  const changedEmail = useCallback(
+  const changedUserName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value);
+      setUserName(e.target.value);
     },
-    [setEmail]
+    [setUserName]
   );
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     await dispatch(
-      changeEmail({
-        email: email,
+      changeUserName({
+        name: userName,
       })
     )
       .unwrap()
+      .then((res) => {
+        setUserName("");
+      })
       .catch((error) => {
         setErrors(error);
       });
@@ -50,7 +56,7 @@ const EmailSettings = () => {
       ), url(${loginImage})`,
       }}
     >
-      {message !== "" && (
+      {message !== "" && message !== undefined && (
         <div className="absolute mx-auto md:top-20 max-w-md">
           <SessionMessage
             message={message}
@@ -61,22 +67,22 @@ const EmailSettings = () => {
       )}
       <div className="bg-opacity-black p-8 rounded shadow-md max-w-md w-full">
         <h1 className="text-2xl text-gray-300 font-bold mb-6 text-center">
-          メールアドレス変更
+          アカウント名変更
         </h1>
         <div className="text-gray-300 mb-4">
-          <p>変更したいメールアドレスを入力してください。</p>
+          <p>変更したいアカウント名を入力してください。</p>
         </div>
         <form method="post" onSubmit={handleSubmit}>
           <InputForm
-            label="新規メールアドレス"
-            value={email}
-            type="email"
-            onChange={changedEmail}
-            errorMessage={errors.email}
-            placeHolderText={inputPlaceholder.email}
+            label="新規アカウント名"
+            value={userName}
+            type="text"
+            onChange={changedUserName}
+            errorMessage={errors.userName}
+            placeHolderText={inputPlaceholder.name}
           />
           <div className="mt-8">
-            <SubmitButton label="メールアドレス変更" />
+            <SubmitButton label="パスワード変更" />
           </div>
         </form>
       </div>
@@ -84,4 +90,4 @@ const EmailSettings = () => {
   );
 };
 
-export default EmailSettings;
+export default UserNameSettings;

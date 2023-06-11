@@ -6,7 +6,7 @@ import { BiLogOut } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../features/store";
 import { useDispatch } from "react-redux";
-import { userLogout } from "../../../features/auth/authSlice";
+import { userLogout } from "../../../features/user/auth/authSlice";
 import { presistProfileConfig } from "../../../features/store";
 import sessionStorage from "redux-persist/es/storage/session";
 

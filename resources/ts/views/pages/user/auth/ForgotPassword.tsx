@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { forgotPassword } from "../../../features/auth/authSlice";
-import { AppDispatch } from "../../../features/store";
-import loginImage from "../../../assets/auth/login-bro.jpg";
-import { MessageClass, SessionType } from "../../../utils/messageType";
-import SubmitButton from "../../components/button/SubmitButton";
-import InputForm from "../../components/form/InputForm";
-import SessionMessage from "../../components/message/SessionMessage";
-import { inputPlaceholder } from "../../../utils/lang";
+import { forgotPassword } from "../../../../features/user/auth/authSlice";
+import { AppDispatch } from "../../../../features/store";
+import loginImage from "../../../../assets/auth/login-bro.jpg";
+import { MessageClass, SessionType } from "../../../../utils/messageType";
+import SubmitButton from "../../../components/button/SubmitButton";
+import InputForm from "../../../components/form/InputForm";
+import SessionMessage from "../../../components/message/SessionMessage";
+import { inputPlaceholder } from "../../../../utils/lang";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

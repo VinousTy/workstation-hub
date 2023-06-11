@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SubmitButton from "../../components/button/SubmitButton";
-import InputForm from "../../components/form/InputForm";
-import loginImage from "../../../assets/auth/login-bro.jpg";
-import { AppDispatch } from "../../../features/store";
+import SubmitButton from "../../../components/button/SubmitButton";
+import InputForm from "../../../components/form/InputForm";
+import loginImage from "../../../../assets/auth/login-bro.jpg";
+import { AppDispatch } from "../../../../features/store";
 import { useDispatch } from "react-redux";
-import { resetPassword } from "../../../features/auth/authSlice";
-import SessionMessage from "../../components/message/SessionMessage";
-import { MessageClass, SessionType } from "../../../utils/messageType";
-import { inputPlaceholder } from "../../../utils/lang";
+import { resetPassword } from "../../../../features/user/auth/authSlice";
+import SessionMessage from "../../../components/message/SessionMessage";
+import { MessageClass, SessionType } from "../../../../utils/messageType";
+import { inputPlaceholder } from "../../../../utils/lang";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");

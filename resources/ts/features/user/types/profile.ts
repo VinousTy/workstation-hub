@@ -1,4 +1,4 @@
-import { UPLOAD_FILE_TYPE } from "../../utils/enums/image/imageType";
+import { UPLOAD_FILE_TYPE } from "../../../utils/enums/image/imageType";
 
 export interface UPDATE_PROFILE_IMAGE_DATA {
   id: string;

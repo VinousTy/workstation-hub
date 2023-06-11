@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
-import loginImage from "../../../assets/auth/login-bro.jpg";
+import loginImage from "../../../../assets/auth/login-bro.jpg";
 import {
   changePassword,
   selectMessage,
-} from "../../../features/auth/authSlice";
-import { AppDispatch, persistConfig } from "../../../features/store";
+} from "../../../../features/user/auth/authSlice";
+import { AppDispatch, persistConfig } from "../../../../features/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import SessionMessage from "../../components/message/SessionMessage";
-import { MessageClass, SessionType } from "../../../utils/messageType";
-import InputForm from "../../components/form/InputForm";
-import SubmitButton from "../../components/button/SubmitButton";
-import { inputPlaceholder } from "../../../utils/lang";
+import SessionMessage from "../../../components/message/SessionMessage";
+import { MessageClass, SessionType } from "../../../../utils/messageType";
+import InputForm from "../../../components/form/InputForm";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { inputPlaceholder } from "../../../../utils/lang";
 
 const PasswordSettings = () => {
   const [password, setPassword] = useState("");

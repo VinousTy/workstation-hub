@@ -5,16 +5,16 @@ import { useDispatch } from "react-redux";
 import {
   closeUserMessage,
   selectMessage,
-} from "../../../features/auth/authSlice";
+} from "../../../features/user/auth/authSlice";
 import {
   closeProfileMessage,
   selectMessage as selectProfileMessage,
-} from "../../../features/profile/profileSlice";
+} from "../../../features/user/profile/profileSlice";
 import { useSelector } from "react-redux";
 import {
   closeDeskMessage,
   selectDeskMessage,
-} from "../../../features/desk/deskSlice";
+} from "../../../features/user/desk/deskSlice";
 
 interface PROPS {
   message: string;

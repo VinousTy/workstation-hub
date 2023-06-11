@@ -1,20 +1,20 @@
 import React, { useCallback, useState } from "react";
-import { categoryNameSelect } from "../../../utils/enums/category/categoryName";
-import AddInputForm from "../../components/form/AddInputForm";
-import { inputPlaceholder } from "../../../utils/lang";
-import TextArea from "../../components/form/TextArea";
-import { changeFile } from "../../../utils/functional/image/changeFile";
-import { AppDispatch } from "../../../features/store";
+import { categoryNameSelect } from "../../../../utils/enums/category/categoryName";
+import AddInputForm from "../../../components/form/AddInputForm";
+import { inputPlaceholder } from "../../../../utils/lang";
+import TextArea from "../../../components/form/TextArea";
+import { changeFile } from "../../../../utils/functional/image/changeFile";
+import { AppDispatch } from "../../../../features/store";
 import { useDispatch } from "react-redux";
 import {
   registDesk,
   selectDeskMessage,
-} from "../../../features/desk/deskSlice";
-import { getExtension } from "../../../utils/functional/image/image";
-import { imageType } from "../../../utils/enums/image/imageType";
+} from "../../../../features/user/desk/deskSlice";
+import { getExtension } from "../../../../utils/functional/image/image";
+import { imageType } from "../../../../utils/enums/image/imageType";
 import { useNavigate } from "react-router-dom";
-import SessionMessage from "../../components/message/SessionMessage";
-import { MessageClass, SessionType } from "../../../utils/messageType";
+import SessionMessage from "../../../components/message/SessionMessage";
+import { MessageClass, SessionType } from "../../../../utils/messageType";
 import { useSelector } from "react-redux";
 
 const postDesk = () => {

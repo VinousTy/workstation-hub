@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAuthUser, selectUser } from "../../../features/auth/authSlice";
-import { AppDispatch } from "../../../features/store";
+import {
+  getAuthUser,
+  selectUser,
+} from "../../../../features/user/auth/authSlice";
+import { AppDispatch } from "../../../../features/store";
 import { useDispatch } from "react-redux";
-import SettingsItem from "../../components/settings/SettingsItem";
+import SettingsItem from "../../../components/settings/SettingsItem";
 
 const UserAccountSetting = () => {
   const dispatch: AppDispatch = useDispatch();
