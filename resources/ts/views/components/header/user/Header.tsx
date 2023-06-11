@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import logo from "../../../assets/header/logo__header.png";
+import logo from "../../../../assets/header/logo__header.png";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../../../features/user/auth/authSlice";
+import { selectIsLoggedIn } from "../../../../features/user/auth/authSlice";
 import { AiOutlineShoppingCart, AiOutlineBell } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
-import DropdownMenu from "../menu/DropdownMenu";
-import { selectProfileImage } from "../../../features/user/profile/profileSlice";
+import DropdownMenu from "../../menu/DropdownMenu";
+import { selectProfileImage } from "../../../../features/user/profile/profileSlice";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
