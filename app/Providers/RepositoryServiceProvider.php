@@ -31,6 +31,9 @@ class RepositoryServiceProvider extends ServiceProvider
         'DeskCategory' => [
             'DeskCategory',
         ],
+        'Notification' => [
+            'Notification',
+        ],
     ];
 
     /**
