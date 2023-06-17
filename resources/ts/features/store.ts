@@ -9,10 +9,11 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
-import authReducer from "./auth/authSlice";
-import profileReducer from "./profile/profileSlice";
-import deskReducer from "./desk/deskSlice";
+import authReducer from "./user/auth/authSlice";
+import profileReducer from "./user/profile/profileSlice";
+import deskReducer from "./user/desk/deskSlice";
 import commonReducer from "./common/commonSlice";
+import adminAuthReducer from "./admin/auth/authSlice";
 
 // redux-presistの設定
 export const persistConfig = {
@@ -34,9 +35,13 @@ const presistedProfileReducer = persistReducer(
 
 export const store = configureStore({
   reducer: {
+    // user
     auth: persistedReducer,
     profile: presistedProfileReducer,
     desk: deskReducer,
+    // admin
+    adminAuth: adminAuthReducer,
+    // common
     common: commonReducer,
   },
   middleware: (getDefaultMiddleware) =>
