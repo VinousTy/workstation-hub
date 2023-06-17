@@ -30,6 +30,9 @@ class UseCaseServiceProvider extends ServiceProvider
             'GetDeskList',
             'StoreDesk',
         ],
+        'Notification' => [
+            'FetchNotificationList',
+        ],
     ];
 
     /**

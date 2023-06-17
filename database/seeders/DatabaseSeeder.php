@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
           CategorySeeder::class,
           DeskCategorySeeder::class,
           DeskImageSeeder::class,
+          NotificationSeeder::class,
       ]);
     }
 }
