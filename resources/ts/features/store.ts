@@ -14,6 +14,7 @@ import profileReducer from "./user/profile/profileSlice";
 import deskReducer from "./user/desk/deskSlice";
 import commonReducer from "./common/commonSlice";
 import adminAuthReducer from "./admin/auth/authSlice";
+import adminNotificationReducer from "./admin/notification/notificationSlice";
 
 // redux-presistの設定
 export const persistConfig = {
@@ -26,11 +27,20 @@ export const presistProfileConfig = {
   storage,
 };
 
+export const persistAdminAuthConfig = {
+  key: "admin_auth", // 保存するkey名
+  storage, // 使用するストレージ
+};
+
 // 永続化するためのreducer作成
 const persistedReducer = persistReducer(persistConfig, authReducer);
 const presistedProfileReducer = persistReducer(
   presistProfileConfig,
   profileReducer
+);
+const presistedAdminAuthReducer = persistReducer(
+  persistAdminAuthConfig,
+  adminAuthReducer
 );
 
 export const store = configureStore({
@@ -40,7 +50,8 @@ export const store = configureStore({
     profile: presistedProfileReducer,
     desk: deskReducer,
     // admin
-    adminAuth: adminAuthReducer,
+    adminAuth: presistedAdminAuthReducer,
+    adminNotification: adminNotificationReducer,
     // common
     common: commonReducer,
   },
