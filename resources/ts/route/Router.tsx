@@ -18,6 +18,7 @@ import ProfileSettings from "../views/pages/user/settings/ProfileSettings";
 import PostDesk from "../views/pages/user/desks/PostDesk";
 import AdminLogin from "../views/pages/admin/auth/Login";
 import AdminHeader from "../views/components/header/admin/AdminHeader";
+import IndexPage from "../views/pages/admin/notification/IndexPage";
 
 const Router = () => {
   return (
@@ -78,6 +79,8 @@ const Router = () => {
               <Routes>
                 {/* 認証ページ */}
                 <Route path="/login" element={<AdminLogin />} />
+                {/* お知らせページ */}
+                <Route path="/notification" element={<IndexPage />} />
               </Routes>
             </>
           }

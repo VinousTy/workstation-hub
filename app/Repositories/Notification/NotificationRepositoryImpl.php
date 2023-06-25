@@ -14,7 +14,7 @@ class NotificationRepositoryImpl implements NotificationRepository
      */
     public function getPaginated(string $perPage, string $currentPage): LengthAwarePaginator
     {
-        return Notification::orderBy('published_at')
+        return Notification::orderBy('published_at', 'Desc')
             ->orderBy('updated_at')
             ->paginate(perPage: $perPage, page: $currentPage);
     }

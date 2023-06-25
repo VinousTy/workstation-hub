@@ -18,7 +18,7 @@ class NotificationSeeder extends Seeder
     public function run()
     {
         $data = [];
-        foreach (LazyCollection::range(1, 10) as $id) {
+        foreach (LazyCollection::range(1, 500) as $id) {
           $data[$id] = Notification::factory()->make()->toArray();
         }
 

@@ -44,7 +44,7 @@ const Login = () => {
     )
       .unwrap()
       .then((res) => {
-        navigate("/");
+        navigate("/admin/notification");
       })
       .catch((error) => {
         setErrors(error);
